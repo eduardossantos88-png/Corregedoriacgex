@@ -11,38 +11,6 @@
         .login input { width: 100%; max-width: 320px; padding: 14px; border-radius: 12px; border: none; background: #2b2d31; color: #fff; font-size: 16px; margin: 0 auto 10px auto; display: block; box-sizing: border-box; }
         .login button { width: 100%; max-width: 320px; padding: 14px; border-radius: 12px; border: none; background: #dc2626; color: #fff; font-size: 16px; font-weight: bold; margin-top: 10px; cursor: pointer; display: block; margin-left: auto; margin-right: auto; }
         
-        .senha-wrapper {
-            max-width: 320px;
-            margin: 0 auto 10px auto;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .senha-wrapper input {
-            width: 100%;
-            padding: 14px 18px;
-            border-radius: 12px;
-            border: none;
-            background: #2b2d31;
-            color: #fff;
-            font-size: 16px;
-            display: block;
-            margin: 0;
-            box-sizing: border-box;
-        }
-        .senha-wrapper .toggle-senha {
-            background: none;
-            border: none;
-            color: #888;
-            font-size: 14px;
-            cursor: pointer;
-            padding: 4px 0;
-            font-weight: bold;
-            text-align: left;
-            width: fit-content;
-        }
-        .senha-wrapper .toggle-senha:hover { color: #fff; }
-        
         .menu { display: none; }
         .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 20px; }
         .usuario { background: #1e1f22; padding: 6px 14px 6px 10px; border-radius: 20px; font-size: 13px; display: flex; align-items: center; gap: 8px; }
@@ -66,6 +34,18 @@
         .linha input { flex: 1; }
         .btn-na { padding: 10px 16px; border-radius: 10px; border: 2px solid #333; background: #1e1f22; color: #888; cursor: pointer; }
         .btn-na.ativo { background: #dc2626; color: #fff; border-color: #dc2626; }
+        .btn-pesquisar-nick {
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 2px solid #333;
+            background: #dc2626;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        .btn-pesquisar-nick:hover { background: #b91c1c; }
         
         .btn-copiar { width: 100%; padding: 14px; border-radius: 12px; border: none; background: #dc2626; color: #fff; font-size: 16px; font-weight: bold; margin-top: 10px; cursor: pointer; }
         .btn-voltar { padding: 10px 20px; border-radius: 10px; border: none; background: #333; color: #fff; cursor: pointer; margin-bottom: 15px; }
@@ -107,7 +87,7 @@
         .btn-pesquisar:hover { background: #4752c4; }
         .btn-pesquisar:active { transform: scale(0.98); }
         
-        .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: #1e1f22; padding: 12px 24px; border-radius: 12px; border: 1px solid #333; display: none; }
+        .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: #1e1f22; padding: 12px 24px; border-radius: 12px; border: 1px solid #333; display: none; z-index: 99999; }
         .toast.mostrar { display: block; }
 
         .titulo-relatorio { font-size: 20px; font-weight: bold; color: #dc2626; margin-bottom: 4px; }
@@ -145,6 +125,8 @@
         .btn-limpar:hover { background: #444; }
         .btn-limpar:active { transform: scale(0.98); }
         
+        .btn-discord.oculto { display: none; }
+                
         /* ====== BOLINHA FLUTUANTE ====== */
         .btn-obs-flutuante {
             position: fixed !important;
@@ -159,7 +141,7 @@
             font-size: 32px !important;
             cursor: grab !important;
             box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4) !important;
-            z-index: 999999 !important;
+            z-index: 999998 !important;
             transition: box-shadow 0.3s ease, transform 0.2s ease !important;
             display: flex !important;
             align-items: center !important;
@@ -196,7 +178,7 @@
             width: 100%;
             max-width: 420px;
             background: #2b2d31;
-            z-index: 1000;
+            z-index: 99999;
             margin: auto;
         }
         .tela-obs-header {
@@ -244,7 +226,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.7);
-            z-index: 99999;
+            z-index: 999999;
             justify-content: center;
             align-items: center;
             padding: 20px;
@@ -333,29 +315,160 @@
         .modal-body .divider { border: none; border-top: 1px solid #3b3d42; margin: 16px 0; }
         @media (max-width: 420px) { .grid-menu { grid-template-columns: 1fr 1fr; } }
         
-        .btn-discord.oculto { display: none; }
+        /* ====== HISTÓRICO ====== */
+        .historico {
+            display: none;
+            padding: 10px 0;
+        }
+        .historico .card {
+            background: #2b2d31;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        .historico .card h3 { color: #dc2626; margin-bottom: 12px; }
+        .historico .relatorio-item {
+            background: #1e1f22;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid #dc2626;
+        }
+        .historico .relatorio-item .tipo { color: #dc2626; font-weight: bold; }
+        .historico .relatorio-item .conteudo {
+            color: #949ba4;
+            font-size: 13px;
+            margin-top: 4px;
+            white-space: pre-wrap;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        .historico .relatorio-item .data { color: #888; font-size: 11px; margin-top: 4px; }
+        .historico .sem-dados { color: #888; text-align: center; padding: 20px; }
+        .historico .btn-copiar-historico {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            background: #5865f2;
+            color: #fff;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+        .historico .btn-copiar-historico:hover { background: #4752c4; }
+        .historico .btn-excluir-historico {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            background: #dc2626;
+            color: #fff;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 6px;
+            margin-left: 6px;
+        }
+        .historico .btn-excluir-historico:hover { background: #b91c1c; }
+        .btn-limpar-historico {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            background: #dc2626;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+        .btn-limpar-historico:hover { background: #b91c1c; }
+        .historico .barra-pesquisa {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .historico .barra-pesquisa input {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 2px solid #333;
+            background: #1e1f22;
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .historico .barra-pesquisa input:focus {
+            border-color: #dc2626;
+            outline: none;
+        }
+        .historico .barra-pesquisa button {
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: none;
+            background: #5865f2;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .historico .barra-pesquisa button:hover { background: #4752c4; }
+        .historico .resultado-contador {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+        .historico .filtros {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .historico .filtros button {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+            color: #888;
+            background: #333;
+        }
+        .historico .filtros button:hover { background: #444; color: #fff; }
+        .historico .filtros button.ativo {
+            background: #dc2626;
+            color: #fff;
+        }
+        .historico .filtros button.ativo:hover { background: #b91c1c; }
+        .btn-limpar-historico-topo {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            background: #dc2626;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: background 0.2s;
+        }
+        .btn-limpar-historico-topo:hover { background: #b91c1c; }
     </style>
 </head>
 <body>
 <div id="app">
 
-    <!-- TELA DE LOGIN -->
+    <!-- ====== TELA DE LOGIN ====== -->
     <div id="telaLogin" class="login">
         <h1 style="color:#dc2626;">CGEx</h1>
         <p style="color:#888;">Relatórios</p>
         <h2>Bem-vindo!</h2>
-        <p style="color:#888;">Informe seu usuário do Discord</p>
-        <input type="text" id="inputUser" placeholder="@seu.usuario">
-        
-        <div class="senha-wrapper">
-            <input type="password" id="inputSenha" placeholder="Senha">
-            <button class="toggle-senha" id="toggleSenha" type="button">Mostrar senha</button>
-        </div>
-        
+        <p style="color:#888;">Digite seu usuário para continuar</p>
+        <input type="text" id="inputUser" placeholder="Usuário do Discord">
         <button id="btnEntrar">Entrar</button>
     </div>
 
-    <!-- MENU PRINCIPAL -->
+    <!-- ====== MENU PRINCIPAL ====== -->
     <div id="telaMenu" class="menu">
         <div class="header">
             <h2 style="color:#dc2626;">CGEx</h2>
@@ -410,10 +523,10 @@
         </div>
 
         <button class="btn-pesquisar" id="btnPesquisar">🔍 Pesquisar nome de usuário / ID</button>
+        <button class="btn-pesquisar" id="btnHistorico" style="background:#555;">📜 Histórico de relatórios</button>
         <button class="btn-sair" id="btnSair">Sair</button>
     </div>
-
-    <!-- TELA DE RELATÓRIO -->
+        <!-- ====== TELA DE RELATÓRIO ====== -->
     <div id="telaRelatorio" class="relatorio">
         <button class="btn-voltar" id="btnVoltar">‹ Voltar</button>
         <div class="titulo-relatorio" id="tituloRelatorio">Advertência</div>
@@ -423,7 +536,38 @@
         <button class="btn-discord" id="btnDiscord">💬 Abrir Discord</button>
     </div>
 
-    <!-- TOAST -->
+    <!-- ====== TELA DE HISTÓRICO ====== -->
+    <div id="telaHistorico" class="historico">
+        <div class="header">
+            <h2 style="color:#dc2626;">📜 Histórico de relatórios</h2>
+            <button id="btnVoltarHistorico" style="background:#333;color:#fff;border:none;padding:8px 16px;border-radius:10px;cursor:pointer;">‹ Voltar</button>
+        </div>
+        <div class="card">
+            <button class="btn-limpar-historico-topo" id="btnLimparHistorico">🗑️ Limpar todo o histórico</button>
+            
+            <div class="barra-pesquisa">
+                <input type="text" id="pesquisaHistorico" placeholder="🔍 Pesquisar no histórico...">
+                <button id="btnPesquisarHistorico">Pesquisar</button>
+            </div>
+            
+            <div class="filtros" id="filtrosHistorico">
+                <button class="ativo" data-filtro="todos">📋 Todos</button>
+                <button data-filtro="Advertência">📋 Advertência</button>
+                <button data-filtro="Rebaixamento">⬇️ Rebaixamento</button>
+                <button data-filtro="Exílio">🚫 Exílio</button>
+                <button data-filtro="Patente">⭐ Patente</button>
+                <button data-filtro="Tickets">🎫 Tickets</button>
+                <button data-filtro="Revogação">🔄 Revogação</button>
+                <button data-filtro="Mute">🔇 Mute</button>
+                <button data-filtro="Omissão">📝 Omissão</button>
+            </div>
+            
+            <div id="resultadoContador" class="resultado-contador"></div>
+            <div id="listaHistorico"></div>
+        </div>
+    </div>
+
+    <!-- ====== TOAST ====== -->
     <div id="toast" class="toast"></div>
 
 </div>
@@ -511,9 +655,14 @@
 // ====== VARIÁVEIS GLOBAIS E LINKS ======
 
 var usuarioSalvo = null;
-var CHAVE = 'cgex_user';
+var CHAVE_USUARIO = 'cgex_usuario_atual';
 var tipoRelatorioAtual = 'advertencia';
-var SENHA_CORRETA = 'CGEXCORREGEDORIA';
+
+// ====== PREFIXO PARA CHAVES DO USUÁRIO ======
+function getChaveUsuario(chave) {
+    if (!usuarioSalvo) return chave;
+    return 'cgex_' + usuarioSalvo.replace('@', '') + '_' + chave;
+}
 
 var LINKS_DISCORD = {
     'advertencia': 'https://discord.com/channels/1409245158662471713/1411184028828303442',
@@ -568,16 +717,15 @@ var TEMPO_INATIVIDADE = [
     'Mais de 6 meses.','N/A.'
 ];
 
-var MOTIVOS_REVOGACAO = ['Inatividade prolongada.','Abandono de cargo.','Conduta inadequada.','Violação de regras.','Pedido do próprio militar.','Outro.'];
 var PERIODOS_CASTIGO = ['1 minuto.','5 minutos.','10 minutos.','1 hora.','1 dia.','1 semana.','Outro.'];
-// ====== ELEMENTOS DOM ======
+    // ====== ELEMENTOS DOM ======
 var telaLogin = document.getElementById('telaLogin');
 var telaMenu = document.getElementById('telaMenu');
 var telaRelatorio = document.getElementById('telaRelatorio');
 var telaObs = document.getElementById('telaObs');
+var telaHistorico = document.getElementById('telaHistorico');
+
 var inputUser = document.getElementById('inputUser');
-var inputSenha = document.getElementById('inputSenha');
-var toggleSenha = document.getElementById('toggleSenha');
 var btnEntrar = document.getElementById('btnEntrar');
 var headerUser = document.getElementById('headerUser');
 var avatarLetter = document.getElementById('avatarLetter');
@@ -588,6 +736,9 @@ var btnVoltar = document.getElementById('btnVoltar');
 var btnCopiar = document.getElementById('btnCopiar');
 var btnDiscord = document.getElementById('btnDiscord');
 var btnSair = document.getElementById('btnSair');
+var btnVoltarHistorico = document.getElementById('btnVoltarHistorico');
+var btnLimparHistorico = document.getElementById('btnLimparHistorico');
+
 var btnAdvertencia = document.getElementById('btnAdvertencia');
 var btnRebaixamento = document.getElementById('btnRebaixamento');
 var btnExilio = document.getElementById('btnExilio');
@@ -596,6 +747,8 @@ var btnTickets = document.getElementById('btnTickets');
 var btnRevogacao = document.getElementById('btnRevogacao');
 var btnMute = document.getElementById('btnMute');
 var btnOmissao = document.getElementById('btnOmissao');
+var btnHistorico = document.getElementById('btnHistorico');
+
 var toast = document.getElementById('toast');
 var timerToast = null;
 
@@ -604,6 +757,11 @@ var modalPesquisar = document.getElementById('modalPesquisar');
 var fecharModal = document.getElementById('fecharModal');
 var btnBuscarDiscord = document.getElementById('btnBuscarDiscord');
 var LINK_LOGS = 'https://discord.com/channels/1409245158662471713/1411524783966916628';
+
+// ====== HISTÓRICO - PESQUISA E FILTROS ======
+var pesquisaInput = document.getElementById('pesquisaHistorico');
+var btnPesquisarHistorico = document.getElementById('btnPesquisarHistorico');
+var filtroAtual = 'todos';
 
 // ====== OBSERVAÇÕES ======
 var btnObsFlutuante = document.getElementById('btnObsFlutuante');
@@ -618,24 +776,40 @@ var btnSalvarObs = document.getElementById('btnSalvarObs');
 var btnCancelarObs = document.getElementById('btnCancelarObs');
 var modalTitulo = document.getElementById('modalTitulo');
 
-var CHAVE_OBS = 'cgex_observacoes';
-var CHAVE_JUST = 'cgex_justificativas';
-var CHAVE_MOT = 'cgex_motivos';
 var tipoAtual = 'observacao';
 
-// ====== EFEITOS SONOROS ======
 var somLogin = document.getElementById('somLogin');
 var somCopiar = document.getElementById('somCopiar');
 
 function tocarSomLogin() { try { somLogin.play(); } catch(e) {} }
 function tocarSomCopiar() { try { somCopiar.play(); } catch(e) {} }
 
-// ====== FUNÇÕES DE OBSERVAÇÕES ======
+function mostrarTela(tela) {
+    telaLogin.style.display = 'none';
+    telaMenu.style.display = 'none';
+    telaRelatorio.style.display = 'none';
+    telaHistorico.style.display = 'none';
+    if (tela === 'login') { telaLogin.style.display = 'block'; }
+    else if (tela === 'menu') { telaMenu.style.display = 'block'; }
+    else if (tela === 'relatorio') { telaRelatorio.style.display = 'block'; }
+    else if (tela === 'historico') { telaHistorico.style.display = 'block'; renderizarHistorico(); }
+}
+
+function mostrarToast(msg) {
+    toast.textContent = msg;
+    toast.className = 'toast mostrar';
+    clearTimeout(timerToast);
+    timerToast = setTimeout(function() { toast.className = 'toast'; }, 3000);
+}
+
+// ====== FUNÇÕES DE OBSERVAÇÕES (COM CHAVES POR USUÁRIO) ======
 function carregarItens(chave) {
-    try { var dados = localStorage.getItem(chave); return dados ? JSON.parse(dados) : []; } catch(e) { return []; }
+    var chaveUsuario = getChaveUsuario(chave);
+    try { var dados = localStorage.getItem(chaveUsuario); return dados ? JSON.parse(dados) : []; } catch(e) { return []; }
 }
 function salvarItens(chave, lista) {
-    try { localStorage.setItem(chave, JSON.stringify(lista)); } catch(e) {}
+    var chaveUsuario = getChaveUsuario(chave);
+    try { localStorage.setItem(chaveUsuario, JSON.stringify(lista)); } catch(e) {}
 }
 
 function renderizarLista(chave, container, tipo) {
@@ -658,7 +832,7 @@ function renderizarLista(chave, container, tipo) {
 
 function deletarItem(index, tipo) {
     if (confirm('Deseja excluir este item?')) {
-        var chave = tipo === 'observacao' ? CHAVE_OBS : (tipo === 'justificativa' ? CHAVE_JUST : CHAVE_MOT);
+        var chave = tipo === 'observacao' ? 'cgex_observacoes' : (tipo === 'justificativa' ? 'cgex_justificativas' : 'cgex_motivos');
         var lista = carregarItens(chave);
         lista.splice(index, 1);
         salvarItens(chave, lista);
@@ -668,7 +842,7 @@ function deletarItem(index, tipo) {
 }
 
 function usarItem(index, tipo) {
-    var chave = tipo === 'observacao' ? CHAVE_OBS : (tipo === 'justificativa' ? CHAVE_JUST : CHAVE_MOT);
+    var chave = tipo === 'observacao' ? 'cgex_observacoes' : (tipo === 'justificativa' ? 'cgex_justificativas' : 'cgex_motivos');
     var lista = carregarItens(chave);
     var item = lista[index];
     localStorage.setItem('cgex_item_selecionado', JSON.stringify({tipo: tipo, item: item}));
@@ -679,11 +853,7 @@ function usarItem(index, tipo) {
 
 function abrirModalNovaObs(tipo) {
     tipoAtual = tipo;
-    var titulos = { 
-        'observacao': '📝 Nova Observação', 
-        'justificativa': '📋 Nova Justificativa', 
-        'motivo': '⚖️ Novo Motivo' 
-    };
+    var titulos = { 'observacao': '📝 Nova Observação', 'justificativa': '📋 Nova Justificativa', 'motivo': '⚖️ Novo Motivo' };
     modalTitulo.textContent = titulos[tipo] || '📝 Novo Item';
     tituloObs.value = '';
     textoObs.value = '';
@@ -695,11 +865,8 @@ function abrirModalNovaObs(tipo) {
 function salvarNovaObs() {
     var titulo = tituloObs.value.trim();
     var texto = textoObs.value.trim();
-    if (!titulo || !texto) { 
-        mostrarToast('⚠️ Preencha o título e o texto!'); 
-        return; 
-    }
-    var chave = tipoAtual === 'observacao' ? CHAVE_OBS : (tipoAtual === 'justificativa' ? CHAVE_JUST : CHAVE_MOT);
+    if (!titulo || !texto) { mostrarToast('⚠️ Preencha o título e o texto!'); return; }
+    var chave = tipoAtual === 'observacao' ? 'cgex_observacoes' : (tipoAtual === 'justificativa' ? 'cgex_justificativas' : 'cgex_motivos');
     var lista = carregarItens(chave);
     lista.push({ titulo: titulo, texto: texto });
     salvarItens(chave, lista);
@@ -709,18 +876,18 @@ function salvarNovaObs() {
 }
 
 function renderizarTudo() {
-    renderizarLista(CHAVE_OBS, listaObs, 'observacao');
-    renderizarLista(CHAVE_JUST, listaJustificativas, 'justificativa');
-    renderizarLista(CHAVE_MOT, listaMotivos, 'motivo');
-}
-// ====== FUNÇÕES PARA MENSAGENS PRONTAS ======
-var CHAVE_MSG = 'cgex_mensagens';
-
+    renderizarLista('cgex_observacoes', listaObs, 'observacao');
+    renderizarLista('cgex_justificativas', listaJustificativas, 'justificativa');
+    renderizarLista('cgex_motivos', listaMotivos, 'motivo');
+    }
+    // ====== MENSAGENS ======
 function carregarMensagens() {
-    try { var dados = localStorage.getItem(CHAVE_MSG); return dados ? JSON.parse(dados) : []; } catch(e) { return []; }
+    var chave = getChaveUsuario('cgex_mensagens');
+    try { var dados = localStorage.getItem(chave); return dados ? JSON.parse(dados) : []; } catch(e) { return []; }
 }
 function salvarMensagens(lista) {
-    try { localStorage.setItem(CHAVE_MSG, JSON.stringify(lista)); } catch(e) {}
+    var chave = getChaveUsuario('cgex_mensagens');
+    try { localStorage.setItem(chave, JSON.stringify(lista)); } catch(e) {}
 }
 
 function renderizarMensagens() {
@@ -801,7 +968,6 @@ function salvarNovaMsg() {
     mostrarToast('✅ Mensagem salva com sucesso!');
 }
 
-// ====== MUDAR ABA ======
 function mudarAba(aba) {
     document.querySelectorAll('.aba-obs').forEach(function(el) { el.classList.remove('ativa'); });
     document.querySelector('.aba-obs[data-aba="' + aba + '"]').classList.add('ativa');
@@ -812,35 +978,124 @@ function mudarAba(aba) {
     if (aba === 'mensagens') { renderizarMensagens(); }
 }
 
-function mostrarTela(tela) {
-    telaLogin.style.display = 'none';
-    telaMenu.style.display = 'none';
-    telaRelatorio.style.display = 'none';
-    if (tela === 'login') { telaLogin.style.display = 'block'; }
-    else if (tela === 'menu') { telaMenu.style.display = 'block'; }
-    else if (tela === 'relatorio') { telaRelatorio.style.display = 'block'; }
+// ====== FUNÇÕES DO HISTÓRICO ======
+function carregarHistorico() {
+    var chave = getChaveUsuario('cgex_historico');
+    try { var dados = localStorage.getItem(chave); return dados ? JSON.parse(dados) : []; } catch(e) { return []; }
+}
+function salvarHistorico(lista) {
+    var chave = getChaveUsuario('cgex_historico');
+    try { localStorage.setItem(chave, JSON.stringify(lista)); } catch(e) {}
 }
 
-function mostrarToast(msg) {
-    toast.textContent = msg;
-    toast.className = 'toast mostrar';
-    clearTimeout(timerToast);
-    timerToast = setTimeout(function() { toast.className = 'toast'; }, 3000);
+function adicionarAoHistorico(tipo, conteudo) {
+    var lista = carregarHistorico();
+    lista.push({
+        tipo: tipo,
+        conteudo: conteudo,
+        data: new Date().toISOString()
+    });
+    salvarHistorico(lista);
 }
 
-// ====== EXPORTAR FUNÇÕES GLOBAIS ======
-window.mudarAba = mudarAba;
-window.abrirModalNovaObs = abrirModalNovaObs;
-window.salvarNovaObs = salvarNovaObs;
-window.deletarItem = deletarItem;
-window.usarItem = usarItem;
-window.renderizarTudo = renderizarTudo;
-window.abrirModalNovaMsg = abrirModalNovaMsg;
-window.salvarNovaMsg = salvarNovaMsg;
-window.renderizarMensagens = renderizarMensagens;
-window.deletarMensagem = deletarMensagem;
-window.copiarMensagem = copiarMensagem;
-// ====== EVENTOS DE OBSERVAÇÕES ======
+function renderizarHistorico() {
+    var container = document.getElementById('listaHistorico');
+    var contador = document.getElementById('resultadoContador');
+    var lista = carregarHistorico();
+    var termo = pesquisaInput ? pesquisaInput.value.trim() : '';
+    var filtro = filtroAtual || 'todos';
+    
+    // Aplicar filtro de tipo
+    var listaFiltrada = lista;
+    if (filtro !== 'todos') {
+        listaFiltrada = lista.filter(function(item) {
+            return item.tipo === filtro;
+        });
+    }
+    
+    // Aplicar pesquisa por texto
+    if (termo !== '') {
+        var termoLower = termo.toLowerCase();
+        listaFiltrada = listaFiltrada.filter(function(item) {
+            return (item.tipo || '').toLowerCase().includes(termoLower) || 
+                   (item.conteudo || '').toLowerCase().includes(termoLower);
+        });
+    }
+    
+    if (listaFiltrada.length === 0) {
+        if (termo !== '') {
+            container.innerHTML = '<div class="sem-dados">Nenhum relatório encontrado com a palavra "<strong>' + termo + '</strong>".</div>';
+            contador.textContent = '0 resultados';
+        } else if (filtro !== 'todos') {
+            container.innerHTML = '<div class="sem-dados">Nenhum relatório do tipo <strong>"' + filtro + '"</strong> encontrado.</div>';
+            contador.textContent = '0 resultados';
+        } else {
+            container.innerHTML = '<div class="sem-dados">Nenhum relatório gerado ainda.<br>Copie um relatório para salvá-lo aqui.</div>';
+            contador.textContent = '';
+        }
+        return;
+    }
+    
+    contador.textContent = listaFiltrada.length + ' relatório(s) encontrado(s)';
+    
+    var html = '';
+    for (var i = listaFiltrada.length - 1; i >= 0; i--) {
+        var r = listaFiltrada[i];
+        var indexReal = lista.indexOf(r);
+        html += '<div class="relatorio-item">';
+        html += '<div class="tipo">📄 ' + (r.tipo || 'Relatório') + '</div>';
+        html += '<div class="conteudo">' + (r.conteudo || 'Sem conteúdo').substring(0, 200) + ((r.conteudo || '').length > 200 ? '...' : '') + '</div>';
+        html += '<div class="data">' + (r.data ? new Date(r.data).toLocaleString('pt-BR') : 'Data não informada') + '</div>';
+        html += '<button class="btn-copiar-historico" onclick="copiarRelatorioHistorico(' + indexReal + ')">📋 Copiar novamente</button>';
+        html += '<button class="btn-excluir-historico" onclick="excluirRelatorioHistorico(' + indexReal + ')">🗑️ Excluir</button>';
+        html += '</div>';
+    }
+    container.innerHTML = html;
+}
+
+function copiarRelatorioHistorico(index) {
+    var lista = carregarHistorico();
+    var item = lista[index];
+    if (!item) { mostrarToast('❌ Relatório não encontrado!'); return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(item.conteudo).then(function() {
+            mostrarToast('✅ Relatório copiado novamente!');
+        }).catch(function() { copiarHistoricoFallback(item.conteudo); });
+    } else { copiarHistoricoFallback(item.conteudo); }
+}
+
+function copiarHistoricoFallback(texto) {
+    try {
+        var ta = document.createElement('textarea');
+        ta.value = texto;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        mostrarToast('✅ Relatório copiado novamente!');
+    } catch(e) {
+        mostrarToast('❌ Erro ao copiar.');
+    }
+}
+
+function excluirRelatorioHistorico(index) {
+    if (!confirm('Deseja excluir este relatório do histórico?')) return;
+    var lista = carregarHistorico();
+    lista.splice(index, 1);
+    salvarHistorico(lista);
+    renderizarHistorico();
+    mostrarToast('🗑️ Relatório excluído!');
+}
+
+function limparHistorico() {
+    if (!confirm('⚠️ Tem certeza que deseja limpar TODO o histórico?')) return;
+    salvarHistorico([]);
+    renderizarHistorico();
+    mostrarToast('🧹 Histórico limpo!');
+}
+    // ====== EVENTOS DE OBSERVAÇÕES ======
 if (btnObsFlutuante) {
     btnObsFlutuante.addEventListener('click', function() { telaObs.style.display = 'flex'; renderizarTudo(); });
 }
@@ -852,16 +1107,6 @@ if (btnCancelarObs) {
 }
 if (modalObs) {
     modalObs.addEventListener('click', function(e) { if (e.target === modalObs) { modalObs.classList.remove('ativo'); } });
-}
-
-// ====== MOSTRAR/OCULTAR SENHA ======
-var senhaVisivel = false;
-if (toggleSenha) {
-    toggleSenha.addEventListener('click', function() {
-        senhaVisivel = !senhaVisivel;
-        inputSenha.type = senhaVisivel ? 'text' : 'password';
-        this.textContent = senhaVisivel ? 'Ocultar senha' : 'Mostrar senha';
-    });
 }
 
 // ====== BOLINHA MOVÍVEL ======
@@ -930,6 +1175,32 @@ if (btnBuscarDiscord) {
     btnBuscarDiscord.addEventListener('click', function() { window.open(LINK_LOGS, '_blank'); mostrarToast('📨 Redirecionando para o canal de logs...'); });
 }
 
+// ====== PESQUISA HISTÓRICO ======
+if (btnPesquisarHistorico) {
+    btnPesquisarHistorico.addEventListener('click', function() {
+        renderizarHistorico();
+    });
+}
+if (pesquisaInput) {
+    pesquisaInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            renderizarHistorico();
+        }
+    });
+}
+
+// ====== FILTROS HISTÓRICO ======
+var botoesFiltro = document.querySelectorAll('.filtros button');
+botoesFiltro.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        botoesFiltro.forEach(function(b) { b.classList.remove('ativo'); });
+        this.classList.add('ativo');
+        filtroAtual = this.getAttribute('data-filtro');
+        renderizarHistorico();
+    });
+});
+
 // ====== USUÁRIO ======
 function atualizarUsuario(user) {
     usuarioSalvo = user;
@@ -938,17 +1209,14 @@ function atualizarUsuario(user) {
     headerUser.textContent = display;
     avatarLetter.textContent = limpo.charAt(0).toUpperCase() || '?';
 }
-function salvarUsuario(user) { try { localStorage.setItem(CHAVE, user); } catch(e) {} }
-function carregarUsuario() { try { return localStorage.getItem(CHAVE); } catch(e) { return null; } }
-function limparUsuario() { try { localStorage.removeItem(CHAVE); } catch(e) {} }
+function salvarUsuario(user) { try { localStorage.setItem(CHAVE_USUARIO, user); } catch(e) {} }
+function carregarUsuario() { try { return localStorage.getItem(CHAVE_USUARIO); } catch(e) { return null; } }
+function limparUsuario() { try { localStorage.removeItem(CHAVE_USUARIO); } catch(e) {} }
 
-// ====== ENTRAR (COM SENHA) ======
+// ====== ENTRAR (APENAS USUÁRIO) ======
 function entrar() {
     var user = inputUser.value.trim();
-    var senha = inputSenha.value.trim();
-    if (!user) { mostrarToast('Digite seu usuário do Discord.'); return; }
-    if (!senha) { mostrarToast('Digite a senha.'); return; }
-    if (senha !== SENHA_CORRETA) { mostrarToast('❌ Senha incorreta!'); return; }
+    if (!user) { mostrarToast('Digite seu usuário.'); return; }
     var final = user.indexOf('@') === 0 ? user : '@' + user;
     atualizarUsuario(final);
     salvarUsuario(final);
@@ -964,12 +1232,12 @@ function sair() {
         atualizarUsuario(null);
         mostrarTela('login');
         inputUser.value = '';
-        inputSenha.value = '';
         mostrarToast('Saiu com sucesso.');
     }
 }
 
 function voltarMenu() { mostrarTela('menu'); }
+function voltarDoHistorico() { mostrarTela('menu'); }
 
 // ====== ABRIR DISCORD ======
 function abrirDiscord() {
@@ -980,7 +1248,18 @@ function abrirDiscord() {
     window.open(link, '_blank');
     mostrarToast('📨 Abrindo Discord no canal correto...');
 }
-// ====== TOGGLE N/A ======
+
+// ====== PESQUISAR NICK NO EBDELTA ======
+function pesquisarNick() {
+    var nickEl = document.getElementById('nick');
+    if (!nickEl) { mostrarToast('❌ Campo de nick não encontrado!'); return; }
+    var nick = nickEl.value.trim();
+    if (!nick || nick === 'N/A') { mostrarToast('⚠️ Preencha o nick do Roblox primeiro!'); nickEl.focus(); return; }
+    var url = 'https://ebdelta.com/u/' + encodeURIComponent(nick);
+    window.open(url, '_blank');
+    mostrarToast('🔍 Pesquisando: ' + nick);
+                                                   }
+    // ====== TOGGLE N/A ======
 function toggleNA(campo) {
     var input, botao;
     if (campo === 'individuo') { input = document.getElementById('individuo'); botao = document.getElementById('btnNaInd'); }
@@ -1019,14 +1298,14 @@ function gerarCampos(tipo) {
     
     if (tipo === 'advertencia') {
         html += '<div class="campo"><label>Indivíduo</label><div class="linha"><input type="text" id="individuo" placeholder="Digite o nome..."><button class="btn-na" id="btnNaInd" onclick="toggleNA(\'individuo\')">N/A</button></div></div>';
-        html += '<div class="campo"><label>Nick Roblox</label><input type="text" id="nick" placeholder="Nick no Roblox"></div>';
+        html += '<div class="campo"><label>Nick Roblox</label><div class="linha"><input type="text" id="nick" placeholder="Nick no Roblox"><button class="btn-pesquisar-nick" onclick="pesquisarNick()">🔍</button></div></div>';
         html += '<div class="campo"><label>ID</label><div class="linha"><input type="text" id="idUser" placeholder="Digite o ID..."><button class="btn-na" id="btnNaId" onclick="toggleNA(\'id\')">N/A</button></div></div>';
         var MOTIVOS_ADVERTENCIA = ['Má conduta.','Falta de gramática.','Pedir free / treino.','Abreviação de palavras / gírias.','Abate de civis sem justificativa.','Uso de fardamento incorreto.','Uso de exploits para realizar JJs dentro do jogo.','Abuso de comandos/bugs.','Ausência fora de área AFK.','Música inapropriada dentro do quartel.','Prisão de forma abusiva.','Atrapalhar o trabalho da CGEx.','Abuso de poder.','Mencionar outro EB de forma sugestiva.'];
         html += '<div class="campo"><label>Motivo</label><select id="motivoAdvertencia"><option value="">Selecione um motivo...</option>';
         for (var m = 0; m < MOTIVOS_ADVERTENCIA.length; m++) { html += '<option value="' + MOTIVOS_ADVERTENCIA[m] + '">' + MOTIVOS_ADVERTENCIA[m] + '</option>'; }
         html += '<option value="OUTRO">✏️ OUTRO</option></select></div>';
         html += '<div class="campo" id="outroMotivoDiv" style="display:none;"><label>Digite o motivo</label><input type="text" id="outroMotivo" placeholder="Digite o motivo..."></div>';
-        var obsLista = carregarItens(CHAVE_OBS);
+        var obsLista = carregarItens('cgex_observacoes');
         html += '<div class="campo"><label>Observações</label><select id="selectObs" onchange="selecionarItem()"><option value="">Escrever nova...</option>';
         for (var o = 0; o < obsLista.length; o++) { html += '<option value="' + o + '" data-tipo="observacao">' + obsLista[o].titulo + '</option>'; }
         html += '</select><div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;"><textarea id="obs" placeholder="Digite as observações..."></textarea><button class="btn-na" id="btnNaObs" onclick="toggleNA(\'obs\')">N/A</button></div></div>';
@@ -1042,7 +1321,7 @@ function gerarCampos(tipo) {
         }, 100);
     } else if (tipo === 'rebaixamento') {
         html += '<div class="campo"><label>Indivíduo</label><div class="linha"><input type="text" id="individuo" placeholder="Digite o nome..."><button class="btn-na" id="btnNaInd" onclick="toggleNA(\'individuo\')">N/A</button></div></div>';
-        html += '<div class="campo"><label>Nick Roblox</label><input type="text" id="nick" placeholder="Nick no Roblox"></div>';
+        html += '<div class="campo"><label>Nick Roblox</label><div class="linha"><input type="text" id="nick" placeholder="Nick no Roblox"><button class="btn-pesquisar-nick" onclick="pesquisarNick()">🔍</button></div></div>';
         html += '<div class="campo"><label>ID</label><div class="linha"><input type="text" id="idUser" placeholder="Digite o ID..."><button class="btn-na" id="btnNaId" onclick="toggleNA(\'id\')">N/A</button></div></div>';
         html += '<div class="campo"><label>Motivo</label><select id="motivoRebaixamento"><option value="">Selecione...</option>';
         var motivosKeys = Object.keys(MOTIVOS_REBAIXAMENTO);
@@ -1055,7 +1334,7 @@ function gerarCampos(tipo) {
         html += '<div class="campo" id="campoNovaFuncao"><label>Nova Função</label><select id="novaFuncao"><option value="">Selecione...</option>';
         for (var k = 0; k < PATENTES.length; k++) { html += '<option value="' + PATENTES[k] + '">' + PATENTES[k] + '</option>'; }
         html += '</select><div id="infoAutoRebaixamento" style="font-size:12px;color:#5865f2;margin-top:4px;"></div></div>';
-        var obsLista = carregarItens(CHAVE_OBS);
+        var obsLista = carregarItens('cgex_observacoes');
         html += '<div class="campo"><label>Observações</label><select id="selectObs" onchange="selecionarItem()"><option value="">Escrever nova...</option>';
         for (var o = 0; o < obsLista.length; o++) { html += '<option value="' + o + '" data-tipo="observacao">' + obsLista[o].titulo + '</option>'; }
         html += '</select><div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;"><textarea id="obs" placeholder="Digite as observações..."></textarea><button class="btn-na" id="btnNaObs" onclick="toggleNA(\'obs\')">N/A</button></div></div>';
@@ -1084,9 +1363,10 @@ function gerarCampos(tipo) {
             antigaSelect.onchange = function() { if (motivoSelect.value !== 'OUTRO' && motivoSelect.value !== '') { atualizarNovaPatente(); } };
             if (motivoSelect.value !== '' && antigaSelect.value !== '') { atualizarNovaPatente(); }
         }, 300);
-    } else if (tipo === 'exilio') {
+    }
+        else if (tipo === 'exilio') {
         html += '<div class="campo"><label>Solicitante</label><input type="text" id="solicitante" placeholder="Digite o solicitante..."></div>';
-        html += '<div class="campo"><label>Nick Roblox</label><input type="text" id="nick" placeholder="Nick no Roblox"></div>';
+        html += '<div class="campo"><label>Nick Roblox</label><div class="linha"><input type="text" id="nick" placeholder="Nick no Roblox"><button class="btn-pesquisar-nick" onclick="pesquisarNick()">🔍</button></div></div>';
         html += '<div class="campo"><label>Nick Discord</label><div class="linha"><input type="text" id="nickDiscord" placeholder="Digite o nick do Discord..."><button class="btn-na" id="btnNaNickDiscord" onclick="toggleNA(\'nickDiscord\')">N/A</button></div></div>';
         html += '<div class="campo"><label>ID</label><div class="linha"><input type="text" id="idUser" placeholder="Digite o ID..."><button class="btn-na" id="btnNaId" onclick="toggleNA(\'id\')">N/A</button></div></div>';
         html += '<div class="campo"><label>Motivo</label><select id="motivoExilio"><option value="">Selecione um motivo...</option>';
@@ -1106,14 +1386,14 @@ function gerarCampos(tipo) {
     } else if (tipo === 'patente') {
         html += '<div class="campo"><label>Solicitante</label><input type="text" id="solicitante" placeholder="Digite o solicitante..."></div>';
         html += '<div class="campo"><label>Autorização</label><div class="linha"><input type="text" id="autorizacao" placeholder="Quem autorizou?"><button class="btn-na" id="btnNaAutorizacao" onclick="toggleNA(\'autorizacao\')">N/A</button></div></div>';
-        html += '<div class="campo"><label>Nick do indivíduo</label><input type="text" id="nickIndividuo" placeholder="Nick do indivíduo..."></div>';
+        html += '<div class="campo"><label>Nick do indivíduo</label><div class="linha"><input type="text" id="nickIndividuo" placeholder="Nick do indivíduo..."><button class="btn-pesquisar-nick" onclick="pesquisarNick()">🔍</button></div></div>';
         html += '<div class="campo"><label>Patente a entregar</label><select id="patenteEntregar"><option value="">Selecione...</option>';
         for (var p = 0; p < PATENTES.length; p++) { html += '<option value="' + PATENTES[p] + '">' + PATENTES[p] + '</option>'; }
         html += '</select></div>';
         html += '<div class="campo"><label>Tempo de inatividade</label><select id="tempoInatividade"><option value="">Selecione...</option>';
         for (var t = 0; t < TEMPO_INATIVIDADE.length; t++) { html += '<option value="' + TEMPO_INATIVIDADE[t] + '">' + TEMPO_INATIVIDADE[t] + '</option>'; }
         html += '</select></div>';
-        var justLista = carregarItens(CHAVE_JUST);
+        var justLista = carregarItens('cgex_justificativas');
         html += '<div class="campo"><label>Justificativa</label><select id="selectObs" onchange="selecionarItem()"><option value="">Escrever nova...</option>';
         for (var j = 0; j < justLista.length; j++) { html += '<option value="' + j + '" data-tipo="justificativa">' + justLista[j].titulo + '</option>'; }
         html += '</select><div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;"><textarea id="obs" placeholder="Digite a justificativa..."></textarea><button class="btn-na" id="btnNaObs" onclick="toggleNA(\'obs\')">N/A</button></div></div>';
@@ -1123,17 +1403,17 @@ function gerarCampos(tipo) {
     } else if (tipo === 'revogacao') {
         html += '<div class="campo"><label>Solicitante</label><input type="text" id="solicitante" placeholder="Digite o solicitante..."></div>';
         html += '<div class="campo"><label>Autorização</label><div class="linha"><input type="text" id="autorizacao" placeholder="Quem autorizou?"><button class="btn-na" id="btnNaAutorizacao" onclick="toggleNA(\'autorizacao\')">N/A</button></div></div>';
-        html += '<div class="campo"><label>Nick do indivíduo a ser revogado</label><div class="linha"><input type="text" id="nickIndividuo" placeholder="Nick do indivíduo..."></div></div>';
+        html += '<div class="campo"><label>Nick do indivíduo a ser revogado</label><div class="linha"><input type="text" id="nickIndividuo" placeholder="Nick do indivíduo..."><button class="btn-pesquisar-nick" onclick="pesquisarNick()">🔍</button></div></div>';
         html += '<div class="campo"><label>Patente perdida</label><select id="patentePerdida"><option value="">Selecione...</option>';
         for (var r = 0; r < PATENTES.length; r++) { html += '<option value="' + PATENTES[r] + '">' + PATENTES[r] + '</option>'; }
         html += '</select></div>';
-        var motLista = carregarItens(CHAVE_MOT);
+        var motLista = carregarItens('cgex_motivos');
         html += '<div class="campo"><label>Motivo</label><select id="selectObs" onchange="selecionarItem()"><option value="">Escrever novo...</option>';
         for (var m = 0; m < motLista.length; m++) { html += '<option value="' + m + '" data-tipo="motivo">' + motLista[m].titulo + '</option>'; }
         html += '</select><div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;"><textarea id="obs" placeholder="Digite o motivo..."></textarea></div></div>';
     } else if (tipo === 'mute') {
         html += '<div class="campo"><label>Indivíduo</label><div class="linha"><input type="text" id="individuo" placeholder="Digite o nome..."></div></div>';
-        var motLista = carregarItens(CHAVE_MOT);
+        var motLista = carregarItens('cgex_motivos');
         html += '<div class="campo"><label>Motivo</label><select id="selectObs" onchange="selecionarItem()"><option value="">Escrever novo...</option>';
         for (var m = 0; m < motLista.length; m++) { html += '<option value="' + m + '" data-tipo="motivo">' + motLista[m].titulo + '</option>'; }
         html += '</select><div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;"><textarea id="obs" placeholder="Digite o motivo..."></textarea></div></div>';
@@ -1142,11 +1422,11 @@ function gerarCampos(tipo) {
         html += '</select></div>';
     } else if (tipo === 'omissao') {
         html += '<div class="campo"><label>Nick do Instrutor</label><div class="linha"><input type="text" id="nickInstrutor" placeholder="Nick do instrutor..."></div></div>';
-        html += '<div class="campo"><label>Nick do indivíduo</label><div class="linha"><input type="text" id="nickIndividuo" placeholder="Nick do indivíduo..."></div></div>';
+        html += '<div class="campo"><label>Nick do indivíduo</label><div class="linha"><input type="text" id="nickIndividuo" placeholder="Nick do indivíduo..."><button class="btn-pesquisar-nick" onclick="pesquisarNick()">🔍</button></div></div>';
         html += '<div class="campo"><label>Patente a entregar</label><select id="patenteEntregar"><option value="">Selecione...</option>';
         for (var o = 0; o < PATENTES.length; o++) { html += '<option value="' + PATENTES[o] + '">' + PATENTES[o] + '</option>'; }
         html += '</select></div>';
-        var justLista = carregarItens(CHAVE_JUST);
+        var justLista = carregarItens('cgex_justificativas');
         html += '<div class="campo"><label>Justificativa</label><select id="selectObs" onchange="selecionarItem()"><option value="">Escrever nova...</option>';
         for (var j = 0; j < justLista.length; j++) { html += '<option value="' + j + '" data-tipo="justificativa">' + justLista[j].titulo + '</option>'; }
         html += '</select><div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;"><textarea id="obs" placeholder="Digite a justificativa..."></textarea><button class="btn-na" id="btnNaObs" onclick="toggleNA(\'obs\')">N/A</button></div></div>';
@@ -1159,12 +1439,12 @@ function gerarCampos(tipo) {
         var tipo = select.options[select.selectedIndex]?.getAttribute('data-tipo') || 'observacao';
         var obsTextarea = document.getElementById('obs');
         if (index === '') { obsTextarea.value = ''; obsTextarea.placeholder = 'Digite...'; obsTextarea.disabled = false; return; }
-        var chave = tipo === 'observacao' ? CHAVE_OBS : (tipo === 'justificativa' ? CHAVE_JUST : CHAVE_MOT);
+        var chave = tipo === 'observacao' ? 'cgex_observacoes' : (tipo === 'justificativa' ? 'cgex_justificativas' : 'cgex_motivos');
         var lista = carregarItens(chave);
         if (lista[index]) { obsTextarea.value = lista[index].texto; obsTextarea.disabled = true; obsTextarea.style.opacity = '0.7'; mostrarToast('✅ Selecionado: ' + lista[index].titulo); }
     };
 }
-// ====== ABRIR RELATÓRIO ======
+    // ====== ABRIR RELATÓRIO ======
 function abrirRelatorio(tipo) {
     var titulos = { 
         'advertencia':'Advertência',
@@ -1390,7 +1670,7 @@ function copiarRelatorio() {
         if (valSolicitante === '' || valSolicitante === 'N/A') { solicitante = 'N/A'; } else { solicitante = valSolicitante.indexOf('@') === 0 ? valSolicitante : '@' + valSolicitante; }
         var quantidade = document.getElementById('quantidadeTicket').value.trim() || '0';
         if (quantidade !== '0' && quantidade !== '') { quantidade = quantidade + '.'; }
-        texto = '**<:CGEx:1477076538397819062> RELATÓRIO DE TICKET**\n**👤 Solicitante:** ' + solicitante + '\n**🔢 Quantidade de ticket:** ' + quantidade;
+        texto = '**<:CGEx:1477076538397819062> RELATÓRIO DE TICKET\n👤 Solicitante: ' + solicitante + '\n🔢 Quantidade de ticket: ' + quantidade + '**';
     } else if (tipoRelatorioAtual === 'revogacao') {
         var nickIndividuo = pegarValorCampo('nickIndividuo');
         var solicitanteEl = document.getElementById('solicitante');
@@ -1420,10 +1700,12 @@ function copiarRelatorio() {
         texto = '**<:CGEx:1477076538397819062>ENTREGAR PATENTE<:cargo:1477086396706586745>**\n————————————————————\n**👤・Atendente:** ' + resp + '\n\n**🧾 • Nick do Instrutor:** ' + nickInstrutor + '\n\n**🧾・Nick do indivíduo:** ' + nickIndividuo + '\n\n**🧾・Patente a entregar:** ' + patente + '\n\n**📎・Justificativa:**\n' + obs;
     }
     
+    adicionarAoHistorico(tituloRelatorio.textContent, texto);
+    
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(texto).then(function() {
             tocarSomCopiar();
-            mostrarToast('✅ Relatório copiado!');
+            mostrarToast('✅ Relatório copiado e salvo no histórico!');
             if (tipoRelatorioAtual !== 'rebaixamento') {
                 abrirDiscord();
             }
@@ -1442,7 +1724,7 @@ function copiarFallback(texto) {
         document.execCommand('copy');
         document.body.removeChild(ta);
         tocarSomCopiar();
-        mostrarToast('✅ Relatório copiado!');
+        mostrarToast('✅ Relatório copiado e salvo no histórico!');
         if (tipoRelatorioAtual !== 'rebaixamento') {
             abrirDiscord();
         }
@@ -1450,13 +1732,15 @@ function copiarFallback(texto) {
         mostrarToast('❌ Erro ao copiar.');
     }
 }
-
-// ====== EVENTOS ======
+    // ====== EVENTOS ======
 btnEntrar.addEventListener('click', entrar);
 btnSair.addEventListener('click', sair);
 btnVoltar.addEventListener('click', voltarMenu);
+btnVoltarHistorico.addEventListener('click', voltarDoHistorico);
+btnLimparHistorico.addEventListener('click', limparHistorico);
 btnCopiar.addEventListener('click', copiarRelatorio);
 btnDiscord.addEventListener('click', abrirDiscord);
+btnHistorico.addEventListener('click', function() { mostrarTela('historico'); });
 
 btnAdvertencia.addEventListener('click', function() { abrirRelatorio('advertencia'); });
 btnRebaixamento.addEventListener('click', function() { abrirRelatorio('rebaixamento'); });
@@ -1470,9 +1754,24 @@ btnOmissao.addEventListener('click', function() { abrirRelatorio('omissao'); });
 inputUser.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') { e.preventDefault(); entrar(); }
 });
-inputSenha.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') { e.preventDefault(); entrar(); }
-});
+
+// ====== EXPORTAR FUNÇÕES GLOBAIS ======
+window.mudarAba = mudarAba;
+window.abrirModalNovaObs = abrirModalNovaObs;
+window.salvarNovaObs = salvarNovaObs;
+window.deletarItem = deletarItem;
+window.usarItem = usarItem;
+window.renderizarTudo = renderizarTudo;
+window.abrirModalNovaMsg = abrirModalNovaMsg;
+window.salvarNovaMsg = salvarNovaMsg;
+window.renderizarMensagens = renderizarMensagens;
+window.deletarMensagem = deletarMensagem;
+window.copiarMensagem = copiarMensagem;
+window.pesquisarNick = pesquisarNick;
+window.copiarRelatorioHistorico = copiarRelatorioHistorico;
+window.excluirRelatorioHistorico = excluirRelatorioHistorico;
+window.limparHistorico = limparHistorico;
+window.renderizarHistorico = renderizarHistorico;
 
 // ====== INICIAR ======
 var salvo = carregarUsuario();
