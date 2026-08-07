@@ -453,6 +453,172 @@
             transition: background 0.2s;
         }
         .btn-limpar-historico-topo:hover { background: #b91c1c; }
+        
+        /* ====== GERAÇÃO EM MASSA ====== */
+        .area-massa {
+            display: none;
+            margin-top: 16px;
+            padding: 12px;
+            background: #1e1f22;
+            border-radius: 10px;
+            border: 2px solid #e67e22;
+        }
+        .area-massa h4 {
+            color: #e67e22;
+            margin-bottom: 8px;
+        }
+        .area-massa textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid #333;
+            background: #2b2d31;
+            color: #fff;
+            font-size: 14px;
+            font-family: inherit;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        .area-massa textarea:focus {
+            border-color: #e67e22;
+            outline: none;
+        }
+        .area-massa input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid #333;
+            background: #2b2d31;
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .area-massa .btn-gerar-massa {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: #22c55e;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        .area-massa .btn-gerar-massa:hover { background: #16a34a; }
+        .area-massa .btn-fechar-massa {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: #555;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 6px;
+            transition: background 0.2s;
+        }
+        .area-massa .btn-fechar-massa:hover { background: #444; }
+        .area-massa .resultado-massa {
+            margin-top: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .area-massa .resultado-massa .item-massa {
+            background: #2b2d31;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid #22c55e;
+        }
+        .area-massa .resultado-massa .item-massa .cabecalho {
+            color: #22c55e;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+        .area-massa .resultado-massa .item-massa .conteudo {
+            color: #888;
+            font-size: 12px;
+            white-space: pre-wrap;
+            max-height: 60px;
+            overflow-y: auto;
+            background: #1e1f22;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .area-massa .resultado-massa .item-massa .btn-copiar-item {
+            padding: 4px 12px;
+            border-radius: 6px;
+            border: none;
+            background: #5865f2;
+            color: #fff;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 6px;
+            transition: background 0.2s;
+        }
+        .area-massa .resultado-massa .item-massa .btn-copiar-item:hover { background: #4752c4; }
+        .area-massa .resultado-massa .rodape-massa {
+            text-align: center;
+            padding: 8px;
+            background: #2b2d31;
+            border-radius: 8px;
+            margin-top: 4px;
+        }
+        .area-massa .resultado-massa .rodape-massa .btn-copiar-todos {
+            padding: 4px 12px;
+            border-radius: 6px;
+            border: none;
+            background: #dc2626;
+            color: #fff;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 8px;
+            transition: background 0.2s;
+        }
+        .area-massa .resultado-massa .rodape-massa .btn-copiar-todos:hover { background: #b91c1c; }
+        .btn-abrir-massa {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: #e67e22;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-abrir-massa:hover { background: #d35400; }
+        .btn-abrir-massa.ativo {
+            background: #dc2626;
+        }
+        .btn-abrir-massa.ativo:hover { background: #b91c1c; }
+        .area-massa .campo-label {
+            display: block;
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            margin-top: 8px;
+        }
+        .btn-limpar-massa {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            background: #dc2626;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 6px;
+            transition: background 0.2s;
+        }
+        .btn-limpar-massa:hover { background: #b91c1c; }
     </style>
 </head>
 <body>
@@ -526,7 +692,8 @@
         <button class="btn-pesquisar" id="btnHistorico" style="background:#555;">📜 Histórico de relatórios</button>
         <button class="btn-sair" id="btnSair">Sair</button>
     </div>
-        <!-- ====== TELA DE RELATÓRIO ====== -->
+
+    <!-- ====== TELA DE RELATÓRIO ====== -->
     <div id="telaRelatorio" class="relatorio">
         <button class="btn-voltar" id="btnVoltar">‹ Voltar</button>
         <div class="titulo-relatorio" id="tituloRelatorio">Advertência</div>
@@ -557,6 +724,7 @@
                 <button data-filtro="Exílio">🚫 Exílio</button>
                 <button data-filtro="Patente">⭐ Patente</button>
                 <button data-filtro="Tickets">🎫 Tickets</button>
+                <button data-filtro="Tickets em massa">📊 Tickets em massa</button>
                 <button data-filtro="Revogação">🔄 Revogação</button>
                 <button data-filtro="Mute">🔇 Mute</button>
                 <button data-filtro="Omissão">📝 Omissão</button>
@@ -572,8 +740,7 @@
 
 </div>
 <!-- FIM DO APP -->
-
-<!-- ====== MODAL DE PESQUISA ====== -->
+    <!-- ====== MODAL DE PESQUISA ====== -->
 <div class="modal-overlay" id="modalPesquisar">
     <div class="modal-content">
         <div class="modal-header">
@@ -802,7 +969,7 @@ function mostrarToast(msg) {
     timerToast = setTimeout(function() { toast.className = 'toast'; }, 3000);
 }
 
-// ====== FUNÇÕES DE OBSERVAÇÕES (COM CHAVES POR USUÁRIO) ======
+// ====== FUNÇÕES DE OBSERVAÇÕES ======
 function carregarItens(chave) {
     var chaveUsuario = getChaveUsuario(chave);
     try { var dados = localStorage.getItem(chaveUsuario); return dados ? JSON.parse(dados) : []; } catch(e) { return []; }
@@ -1005,7 +1172,6 @@ function renderizarHistorico() {
     var termo = pesquisaInput ? pesquisaInput.value.trim() : '';
     var filtro = filtroAtual || 'todos';
     
-    // Aplicar filtro de tipo
     var listaFiltrada = lista;
     if (filtro !== 'todos') {
         listaFiltrada = lista.filter(function(item) {
@@ -1013,7 +1179,6 @@ function renderizarHistorico() {
         });
     }
     
-    // Aplicar pesquisa por texto
     if (termo !== '') {
         var termoLower = termo.toLowerCase();
         listaFiltrada = listaFiltrada.filter(function(item) {
@@ -1216,7 +1381,10 @@ function limparUsuario() { try { localStorage.removeItem(CHAVE_USUARIO); } catch
 // ====== ENTRAR (APENAS USUÁRIO) ======
 function entrar() {
     var user = inputUser.value.trim();
-    if (!user) { mostrarToast('Digite seu usuário.'); return; }
+    if (!user) {
+        mostrarToast('Digite seu usuário.');
+        return;
+    }
     var final = user.indexOf('@') === 0 ? user : '@' + user;
     atualizarUsuario(final);
     salvarUsuario(final);
@@ -1258,7 +1426,7 @@ function pesquisarNick() {
     var url = 'https://ebdelta.com/u/' + encodeURIComponent(nick);
     window.open(url, '_blank');
     mostrarToast('🔍 Pesquisando: ' + nick);
-                                                   }
+        }
     // ====== TOGGLE N/A ======
 function toggleNA(campo) {
     var input, botao;
@@ -1364,43 +1532,104 @@ function gerarCampos(tipo) {
             if (motivoSelect.value !== '' && antigaSelect.value !== '') { atualizarNovaPatente(); }
         }, 300);
     }
-        else if (tipo === 'exilio') {
-        html += '<div class="campo"><label>Solicitante</label><input type="text" id="solicitante" placeholder="Digite o solicitante..."></div>';
-        html += '<div class="campo"><label>Nick Roblox</label><div class="linha"><input type="text" id="nick" placeholder="Nick no Roblox"><button class="btn-pesquisar-nick" onclick="pesquisarNick()">🔍</button></div></div>';
-        html += '<div class="campo"><label>Nick Discord</label><div class="linha"><input type="text" id="nickDiscord" placeholder="Digite o nick do Discord..."><button class="btn-na" id="btnNaNickDiscord" onclick="toggleNA(\'nickDiscord\')">N/A</button></div></div>';
-        html += '<div class="campo"><label>ID</label><div class="linha"><input type="text" id="idUser" placeholder="Digite o ID..."><button class="btn-na" id="btnNaId" onclick="toggleNA(\'id\')">N/A</button></div></div>';
-        html += '<div class="campo"><label>Motivo</label><select id="motivoExilio"><option value="">Selecione um motivo...</option>';
-        for (var e = 0; e < MOTIVOS_EXILIO.length; e++) { html += '<option value="' + MOTIVOS_EXILIO[e] + '">' + MOTIVOS_EXILIO[e] + '</option>'; }
-        html += '<option value="OUTRO">✏️ OUTRO</option></select></div>';
-        html += '<div class="campo" id="outroMotivoExilioDiv" style="display:none;"><label>Digite o motivo</label><input type="text" id="outroMotivoExilio" placeholder="Digite o motivo..."></div>';
-        setTimeout(function() {
-            var select = document.getElementById('motivoExilio');
-            if (select) {
-                select.onchange = function() {
-                    var div = document.getElementById('outroMotivoExilioDiv');
-                    if (this.value === 'OUTRO') { div.style.display = 'block'; document.getElementById('outroMotivoExilio').focus(); } 
-                    else { div.style.display = 'none'; document.getElementById('outroMotivoExilio').value = ''; }
-                };
-            }
-        }, 100);
-    } else if (tipo === 'patente') {
-        html += '<div class="campo"><label>Solicitante</label><input type="text" id="solicitante" placeholder="Digite o solicitante..."></div>';
-        html += '<div class="campo"><label>Autorização</label><div class="linha"><input type="text" id="autorizacao" placeholder="Quem autorizou?"><button class="btn-na" id="btnNaAutorizacao" onclick="toggleNA(\'autorizacao\')">N/A</button></div></div>';
-        html += '<div class="campo"><label>Nick do indivíduo</label><div class="linha"><input type="text" id="nickIndividuo" placeholder="Nick do indivíduo..."><button class="btn-pesquisar-nick" onclick="pesquisarNick()">🔍</button></div></div>';
-        html += '<div class="campo"><label>Patente a entregar</label><select id="patenteEntregar"><option value="">Selecione...</option>';
-        for (var p = 0; p < PATENTES.length; p++) { html += '<option value="' + PATENTES[p] + '">' + PATENTES[p] + '</option>'; }
-        html += '</select></div>';
-        html += '<div class="campo"><label>Tempo de inatividade</label><select id="tempoInatividade"><option value="">Selecione...</option>';
-        for (var t = 0; t < TEMPO_INATIVIDADE.length; t++) { html += '<option value="' + TEMPO_INATIVIDADE[t] + '">' + TEMPO_INATIVIDADE[t] + '</option>'; }
-        html += '</select></div>';
-        var justLista = carregarItens('cgex_justificativas');
-        html += '<div class="campo"><label>Justificativa</label><select id="selectObs" onchange="selecionarItem()"><option value="">Escrever nova...</option>';
-        for (var j = 0; j < justLista.length; j++) { html += '<option value="' + j + '" data-tipo="justificativa">' + justLista[j].titulo + '</option>'; }
-        html += '</select><div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;"><textarea id="obs" placeholder="Digite a justificativa..."></textarea><button class="btn-na" id="btnNaObs" onclick="toggleNA(\'obs\')">N/A</button></div></div>';
-    } else if (tipo === 'tickets') {
-        html += '<div class="campo"><label>Solicitante</label><input type="text" id="solicitante" placeholder="Digite o solicitante..."></div>';
-        html += '<div class="campo"><label>Quantidade de ticket</label><input type="text" id="quantidadeTicket" placeholder="Ex: 23"></div>';
-    } else if (tipo === 'revogacao') {
+    else if (tipo === 'exilio') {
+    html += '<div class="campo"><label>Solicitante</label><input type="text" id="solicitante" placeholder="Digite o solicitante..."></div>';
+    html += '<div class="campo"><label>Nick Roblox</label><div class="linha"><input type="text" id="nick" placeholder="Nick no Roblox"><button class="btn-pesquisar-nick" onclick="pesquisarNick()">🔍</button></div></div>';
+    html += '<div class="campo"><label>Nick Discord</label><div class="linha"><input type="text" id="nickDiscord" placeholder="Digite o nick do Discord..."><button class="btn-na" id="btnNaNickDiscord" onclick="toggleNA(\'nickDiscord\')">N/A</button></div></div>';
+    html += '<div class="campo"><label>ID</label><div class="linha"><input type="text" id="idUser" placeholder="Digite o ID..."><button class="btn-na" id="btnNaId" onclick="toggleNA(\'id\')">N/A</button></div></div>';
+    html += '<div class="campo"><label>Motivo</label><select id="motivoExilio"><option value="">Selecione um motivo...</option>';
+    for (var e = 0; e < MOTIVOS_EXILIO.length; e++) { html += '<option value="' + MOTIVOS_EXILIO[e] + '">' + MOTIVOS_EXILIO[e] + '</option>'; }
+    html += '<option value="OUTRO">✏️ OUTRO</option></select></div>';
+    html += '<div class="campo" id="outroMotivoExilioDiv" style="display:none;"><label>Digite o motivo</label><input type="text" id="outroMotivoExilio" placeholder="Digite o motivo..."></div>';
+    setTimeout(function() {
+        var select = document.getElementById('motivoExilio');
+        if (select) {
+            select.onchange = function() {
+                var div = document.getElementById('outroMotivoExilioDiv');
+                if (this.value === 'OUTRO') { div.style.display = 'block'; document.getElementById('outroMotivoExilio').focus(); } 
+                else { div.style.display = 'none'; document.getElementById('outroMotivoExilio').value = ''; }
+            };
+        }
+    }, 100);
+} else if (tipo === 'patente') {
+    html += '<div class="campo"><label>Solicitante</label><input type="text" id="solicitante" placeholder="Digite o solicitante..."></div>';
+    html += '<div class="campo"><label>Autorização</label><div class="linha"><input type="text" id="autorizacao" placeholder="Quem autorizou?"><button class="btn-na" id="btnNaAutorizacao" onclick="toggleNA(\'autorizacao\')">N/A</button></div></div>';
+    html += '<div class="campo"><label>Nick do indivíduo</label><div class="linha"><input type="text" id="nickIndividuo" placeholder="Nick do indivíduo..."><button class="btn-pesquisar-nick" onclick="pesquisarNick()">🔍</button></div></div>';
+    html += '<div class="campo"><label>Patente a entregar</label><select id="patenteEntregar"><option value="">Selecione...</option>';
+    for (var p = 0; p < PATENTES.length; p++) { html += '<option value="' + PATENTES[p] + '">' + PATENTES[p] + '</option>'; }
+    html += '</select></div>';
+    html += '<div class="campo"><label>Tempo de inatividade</label><select id="tempoInatividade"><option value="">Selecione...</option>';
+    for (var t = 0; t < TEMPO_INATIVIDADE.length; t++) { html += '<option value="' + TEMPO_INATIVIDADE[t] + '">' + TEMPO_INATIVIDADE[t] + '</option>'; }
+    html += '</select></div>';
+    var justLista = carregarItens('cgex_justificativas');
+    html += '<div class="campo"><label>Justificativa</label><select id="selectObs" onchange="selecionarItem()"><option value="">Escrever nova...</option>';
+    for (var j = 0; j < justLista.length; j++) { html += '<option value="' + j + '" data-tipo="justificativa">' + justLista[j].titulo + '</option>'; }
+    html += '</select><div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;"><textarea id="obs" placeholder="Digite a justificativa..."></textarea><button class="btn-na" id="btnNaObs" onclick="toggleNA(\'obs\')">N/A</button></div></div>';
+} else if (tipo === 'tickets') {
+    html += '<div class="campo"><label>Solicitante (Individual)</label><input type="text" id="solicitante" placeholder="Digite o solicitante..."></div>';
+    html += '<div class="campo"><label>Quantidade de ticket</label><input type="text" id="quantidadeTicket" placeholder="Ex: 23"></div>';
+    
+    html += '<button class="btn-abrir-massa" id="btnAbrirGeracaoMassa">📊 Gerar vários relatórios</button>';
+    html += '<div class="area-massa" id="areaGeracaoMassa">';
+    html += '<h4>📊 Gerar múltiplos relatórios de ticket</h4>';
+    html += '<label class="campo-label">Lista de solicitantes (um por linha)</label>';
+    html += '<textarea id="listaSolicitantes" placeholder="rodrigocie&#10;zxpedrix_&#10;mateus025701"></textarea>';
+    html += '<label class="campo-label">Número inicial do ticket</label>';
+    html += '<input type="number" id="numeroInicialTicket" placeholder="Ex: 223" value="1">';
+    html += '<button class="btn-gerar-massa" id="btnGerarMassa">🚀 Gerar relatórios em massa</button>';
+    html += '<button class="btn-limpar-massa" id="btnLimparMassa">🗑️ Limpar relatórios gerados</button>';
+    html += '<button class="btn-fechar-massa" id="btnFecharGeracaoMassa">✕ Fechar</button>';
+    html += '<div class="resultado-massa" id="resultadoGeracaoMassa"></div>';
+    html += '</div>';
+    
+    setTimeout(function() {
+        var btnAbrir = document.getElementById('btnAbrirGeracaoMassa');
+        var area = document.getElementById('areaGeracaoMassa');
+        var btnFechar = document.getElementById('btnFecharGeracaoMassa');
+        var btnGerar = document.getElementById('btnGerarMassa');
+        var btnLimparMassa = document.getElementById('btnLimparMassa');
+        
+        if (btnAbrir) {
+            btnAbrir.onclick = function() {
+                if (area.style.display === 'none' || area.style.display === '') {
+                    area.style.display = 'block';
+                    this.textContent = '✕ Fechar geração em massa';
+                    this.classList.add('ativo');
+                } else {
+                    area.style.display = 'none';
+                    this.textContent = '📊 Gerar vários relatórios';
+                    this.classList.remove('ativo');
+                }
+            };
+        }
+        if (btnFechar) {
+            btnFechar.onclick = function() {
+                area.style.display = 'none';
+                var btnAbrir = document.getElementById('btnAbrirGeracaoMassa');
+                if (btnAbrir) {
+                    btnAbrir.textContent = '📊 Gerar vários relatórios';
+                    btnAbrir.classList.remove('ativo');
+                }
+            };
+        }
+        if (btnGerar) {
+            btnGerar.onclick = function() {
+                gerarRelatoriosMassa();
+            };
+        }
+        if (btnLimparMassa) {
+            btnLimparMassa.onclick = function() {
+                var resultado = document.getElementById('resultadoGeracaoMassa');
+                if (resultado) {
+                    resultado.innerHTML = '';
+                    window._relatoriosMassa = [];
+                    mostrarToast('🧹 Relatórios em massa limpos!');
+                }
+            };
+        }
+    }, 100);
+    }
+        else if (tipo === 'revogacao') {
         html += '<div class="campo"><label>Solicitante</label><input type="text" id="solicitante" placeholder="Digite o solicitante..."></div>';
         html += '<div class="campo"><label>Autorização</label><div class="linha"><input type="text" id="autorizacao" placeholder="Quem autorizou?"><button class="btn-na" id="btnNaAutorizacao" onclick="toggleNA(\'autorizacao\')">N/A</button></div></div>';
         html += '<div class="campo"><label>Nick do indivíduo a ser revogado</label><div class="linha"><input type="text" id="nickIndividuo" placeholder="Nick do indivíduo..."><button class="btn-pesquisar-nick" onclick="pesquisarNick()">🔍</button></div></div>';
@@ -1443,6 +1672,76 @@ function gerarCampos(tipo) {
         var lista = carregarItens(chave);
         if (lista[index]) { obsTextarea.value = lista[index].texto; obsTextarea.disabled = true; obsTextarea.style.opacity = '0.7'; mostrarToast('✅ Selecionado: ' + lista[index].titulo); }
     };
+}
+
+// ====== FUNÇÃO PARA SALVAR RELATÓRIOS EM MASSA NO HISTÓRICO ======
+function salvarHistoricoMassa(tipo, conteudo) {
+    var lista = carregarHistorico();
+    lista.push({
+        tipo: tipo,
+        conteudo: conteudo,
+        data: new Date().toISOString()
+    });
+    salvarHistorico(lista);
+}
+
+// ====== FUNÇÃO PARA GERAR RELATÓRIOS EM MASSA ======
+function gerarRelatoriosMassa() {
+    var listaText = document.getElementById('listaSolicitantes');
+    var numInicial = document.getElementById('numeroInicialTicket');
+    var resultado = document.getElementById('resultadoGeracaoMassa');
+    
+    if (!listaText || !numInicial || !resultado) {
+        mostrarToast('❌ Erro: elementos não encontrados!');
+        return;
+    }
+    
+    var solicitantes = listaText.value.split('\n')
+        .map(function(s) { return s.trim(); })
+        .filter(function(s) { return s !== ''; });
+    
+    if (solicitantes.length === 0) {
+        mostrarToast('⚠️ Digite pelo menos um solicitante!');
+        return;
+    }
+    
+    var num = parseInt(numInicial.value);
+    if (isNaN(num) || num < 1) {
+        mostrarToast('⚠️ Digite um número inicial válido!');
+        return;
+    }
+    
+    var html = '';
+    var total = solicitantes.length;
+    var relatoriosGerados = [];
+    var textoCompleto = '';
+    
+    for (var i = 0; i < solicitantes.length; i++) {
+        var user = solicitantes[i];
+        var ticketNum = num + i;
+        var texto = '**<:CGEx:1477076538397819062> RELATÓRIO DE TICKET\n👤 Solicitante: @' + user + '\n🔢 Quantidade de ticket: ' + ticketNum + '.**';
+        relatoriosGerados.push(texto);
+        textoCompleto += texto + '\n\n---\n\n';
+        
+        html += '<div class="item-massa">';
+        html += '<div class="cabecalho">#' + (i + 1) + ' de ' + total + ' | Ticket: ' + ticketNum + ' | @' + user + '</div>';
+        html += '<div class="conteudo">' + texto.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>';
+        html += '<button class="btn-copiar-item" onclick="copiarRelatorioMassa(' + i + ')">📋 Copiar este</button>';
+        html += '</div>';
+    }
+    
+    textoCompleto = textoCompleto.slice(0, -6);
+    
+    html += '<div class="rodape-massa">';
+    html += '<span style="color:#22c55e;">✅ ' + total + ' relatório(s) gerado(s)</span>';
+    html += ' <button class="btn-copiar-todos" onclick="copiarTodosRelatoriosMassa()">📋 Copiar todos</button>';
+    html += '</div>';
+    
+    resultado.innerHTML = html;
+    window._relatoriosMassa = relatoriosGerados;
+    
+    salvarHistoricoMassa('Tickets em massa', textoCompleto);
+    mostrarToast('✅ ' + total + ' relatórios gerados e salvos no histórico!');
 }
     // ====== ABRIR RELATÓRIO ======
 function abrirRelatorio(tipo) {
@@ -1537,6 +1836,52 @@ function adicionarBotaoRebaixar() {
     if (btnRebaixar) {
         btnRebaixar.style.display = (tipoRelatorioAtual === 'rebaixamento') ? 'block' : 'none';
     }
+}
+
+// ====== COPIAR RELATÓRIO INDIVIDUAL DA MASSA ======
+function copiarRelatorioMassa(index) {
+    var lista = window._relatoriosMassa || [];
+    if (!lista[index]) {
+        mostrarToast('❌ Relatório não encontrado!');
+        return;
+    }
+    var texto = lista[index];
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(texto).then(function() {
+            mostrarToast('✅ Relatório #' + (index + 1) + ' copiado!');
+        }).catch(function() { copiarMassaFallback(texto); });
+    } else { copiarMassaFallback(texto); }
+}
+
+function copiarMassaFallback(texto) {
+    try {
+        var ta = document.createElement('textarea');
+        ta.value = texto;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        mostrarToast('✅ Relatório copiado!');
+    } catch(e) {
+        mostrarToast('❌ Erro ao copiar.');
+    }
+}
+
+// ====== COPIAR TODOS OS RELATÓRIOS DA MASSA ======
+function copiarTodosRelatoriosMassa() {
+    var lista = window._relatoriosMassa || [];
+    if (lista.length === 0) {
+        mostrarToast('❌ Nenhum relatório para copiar!');
+        return;
+    }
+    var textoCompleto = lista.join('\n\n---\n\n');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textoCompleto).then(function() {
+            mostrarToast('✅ ' + lista.length + ' relatórios copiados!');
+        }).catch(function() { copiarMassaFallback(textoCompleto); });
+    } else { copiarMassaFallback(textoCompleto); }
 }
 
 // ====== COPIAR RELATÓRIO ======
@@ -1732,7 +2077,8 @@ function copiarFallback(texto) {
         mostrarToast('❌ Erro ao copiar.');
     }
 }
-    // ====== EVENTOS ======
+
+// ====== EVENTOS ======
 btnEntrar.addEventListener('click', entrar);
 btnSair.addEventListener('click', sair);
 btnVoltar.addEventListener('click', voltarMenu);
@@ -1752,7 +2098,10 @@ btnMute.addEventListener('click', function() { abrirRelatorio('mute'); });
 btnOmissao.addEventListener('click', function() { abrirRelatorio('omissao'); });
 
 inputUser.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') { e.preventDefault(); entrar(); }
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        entrar();
+    }
 });
 
 // ====== EXPORTAR FUNÇÕES GLOBAIS ======
@@ -1772,6 +2121,9 @@ window.copiarRelatorioHistorico = copiarRelatorioHistorico;
 window.excluirRelatorioHistorico = excluirRelatorioHistorico;
 window.limparHistorico = limparHistorico;
 window.renderizarHistorico = renderizarHistorico;
+window.gerarRelatoriosMassa = gerarRelatoriosMassa;
+window.copiarRelatorioMassa = copiarRelatorioMassa;
+window.copiarTodosRelatoriosMassa = copiarTodosRelatoriosMassa;
 
 // ====== INICIAR ======
 var salvo = carregarUsuario();
