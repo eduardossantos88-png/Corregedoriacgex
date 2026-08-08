@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGEx - Manutenção</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #1a1b1e;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            width: 100%;
+            text-align: center;
+            background: #2b2d31;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 60px rgba(0, 0, 0, 0.6);
+            border: 1px solid #3b3d42;
+        }
+
+        .logo {
+            font-size: 52px;
+            font-weight: 900;
+            color: #dc2626;
+            letter-spacing: -2px;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 30px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .icon-manutencao {
+            font-size: 80px;
+            margin-bottom: 16px;
+            display: block;
+            animation: girar 4s linear infinite;
+        }
+
+        @keyframes girar {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .relogio {
+            font-size: 32px;
+            color: #22c55e;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            background: #1e1f22;
+            padding: 12px 24px;
+            border-radius: 12px;
+            display: inline-block;
+            margin: 12px auto 8px;
+            border: 1px solid #333;
+            letter-spacing: 2px;
+        }
+
+        .relogio-label {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #dc2626;
+            margin-bottom: 12px;
+        }
+
+        .descricao {
+            color: #949ba4;
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto 8px;
+        }
+
+        .descricao strong {
+            color: #fff;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #3b3d42;
+            margin: 24px 0;
+        }
+
+        /* ====== SELEÇÃO DE JOGO ====== */
+        .game-selector {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .game-selector button {
+            padding: 10px 30px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background: #1e1f22;
+            color: #888;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .game-selector button:hover {
+            border-color: #5865f2;
+            color: #fff;
+            background: #2b2d31;
+        }
+
+        .game-selector button.ativo {
+            border-color: #dc2626;
+            color: #dc2626;
+            background: #2b1a1a;
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.15);
+        }
+
+        .game-selector button.ativo:hover {
+            border-color: #dc2626;
+            color: #fff;
+            background: #3b1a1a;
+        }
+
+        /* ====== JOGO ====== */
+        .game-wrapper {
+            background: #1a1b1e;
+            border-radius: 12px;
+            padding: 10px;
+            border: 2px solid #333;
+            margin: 16px 0 20px;
+            overflow: hidden;
+            position: relative;
+            min-height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .game-wrapper canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            background: #1a1b1e;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            cursor: pointer;
+            touch-action: none;
+            border-radius: 4px;
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .game-controls button {
+            padding: 8px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #5865f2;
+            color: #fff;
+        }
+
+        .game-controls button:hover {
+            background: #4752c4;
+            transform: scale(1.02);
+        }
+
+        .game-controls button:active {
+            transform: scale(0.95);
+        }
+
+        .game-controls .btn-reiniciar {
+            background: #dc2626;
+        }
+
+        .game-controls .btn-reiniciar:hover {
+            background: #b91c1c;
+        }
+
+        .game-controls .btn-pular {
+            background: #22c55e;
+        }
+
+        .game-controls .btn-pular:hover {
+            background: #16a34a;
+        }
+
+        .game-controls .btn-direcao {
+            background: #e67e22;
+            min-width: 60px;
+        }
+
+        .game-controls .btn-direcao:hover {
+            background: #d35400;
+        }
+
+        .game-hint {
+            color: #888;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .game-hint kbd {
+            background: #2b2d31;
+            padding: 2px 10px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            font-size: 12px;
+            color: #fff;
+        }
+
+        /* ====== RODAPÉ ====== */
+        .footer {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #3b3d42;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .footer .atencao {
+            color: #5865f2;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .footer .atencao span {
+            color: #dc2626;
+        }
+
+        .footer .versao {
+            color: #555;
+            font-size: 12px;
+        }
+
+        /* ====== CONTROLES DA COBRINHA ====== */
+        .snake-controls {
+            display: none;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .snake-controls.mostrar {
+            display: flex;
+        }
+
+        .snake-controls button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            background: #5865f2;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            min-width: 55px;
+            transition: all 0.2s;
+        }
+
+        .snake-controls button:hover {
+            background: #4752c4;
+            transform: scale(1.05);
+        }
+
+        .snake-controls button:active {
+            transform: scale(0.95);
+        }
+
+        /* ====== RESPONSIVIDADE ====== */
+        @media (max-width: 600px) {
+            .container {
+                padding: 24px 16px;
+            }
+            .logo {
+                font-size: 40px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            .descricao {
+                font-size: 15px;
+            }
+            .icon-manutencao {
+                font-size: 56px;
+            }
+            .game-wrapper canvas {
+                max-height: 280px;
+            }
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+            .game-controls button {
+                padding: 6px 16px;
+                font-size: 12px;
+            }
+            .relogio {
+                font-size: 24px;
+                padding: 8px 16px;
+            }
+            .game-selector button {
+                padding: 6px 16px;
+                font-size: 13px;
+            }
+            .snake-controls button {
+                padding: 6px 12px;
+                font-size: 14px;
+                min-width: 45px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .game-wrapper canvas {
+                max-height: 200px;
+            }
+            .container {
+                padding: 16px 10px;
+            }
+            .logo {
+                font-size: 32px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            .relogio {
+                font-size: 20px;
+                padding: 6px 12px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e1f22;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dc2626;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- LOGO -->
+        <div class="logo">CGEx</div>
+        <div class="subtitle">Corregedoria</div>
+
+        <!-- ÍCONE -->
+        <span class="icon-manutencao">🔧</span>
+
+        <!-- TÍTULO -->
+        <h1>Em Manutenção</h1>
+
+        <!-- DESCRIÇÃO -->
+        <p class="descricao">
+            Estamos realizando melhorias no sistema para oferecer uma melhor experiência.
+            <br>Voltamos em breve!
+        </p>
+
+        <!-- RELÓGIO EM TEMPO REAL -->
+        <div class="relogio-label">⏰ Horário atual</div>
+        <div class="relogio" id="relogioAtual">00:00:00</div>
+
+        <!-- DIVISOR -->
+        <hr class="divider">
+
+        <!-- SELEÇÃO DE JOGO -->
+        <h3 style="color:#949ba4; margin-bottom:12px; font-weight:400;">🎮 Escolha seu jogo</h3>
+        <div class="game-selector">
+            <button class="ativo" id="btnDino">🦕 Dinossauro</button>
+            <button id="btnSnake">🐍 Cobrinha</button>
+        </div>
+
+        <!-- JOGO -->
+        <div class="game-wrapper">
+            <canvas id="gameCanvas" width="700" height="350"></canvas>
+        </div>
+
+        <!-- CONTROLES DO DINOSSAURO -->
+        <div class="game-controls" id="controlesDino">
+            <button class="btn-pular" id="btnPular">⬆️ Pular</button>
+            <button class="btn-reiniciar" id="btnReiniciar">🔄 Reiniciar</button>
+        </div>
+
+        <!-- CONTROLES DA COBRINHA -->
+        <div class="snake-controls" id="controlesSnake">
+            <button class="btn-direcao" data-dir="up">⬆</button>
+            <button class="btn-direcao" data-dir="left">⬅</button>
+            <button class="btn-direcao" data-dir="down">⬇</button>
+            <button class="btn-direcao" data-dir="right">➡</button>
+            <button class="btn-reiniciar" id="btnReiniciarSnake">🔄</button>
+        </div>
+
+        <div class="game-hint" id="hintJogo">
+            Pressione <kbd>Espaço</kbd> ou <kbd>↑</kbd> para pular &nbsp;·&nbsp; Clique no jogo para pular também
+        </div>
+
+        <!-- DIVISOR -->
+        <hr class="divider">
+
+        <!-- RODAPÉ -->
+        <div class="footer">
+            <div class="atencao">
+                ⚠️ Atenciosamente, <span>e.sousa61</span>
+            </div>
+            <div class="versao">
+                CGEx v2.0 · Em manutenção
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        //  RELÓGIO EM TEMPO REAL
+        // ============================================================
+        function atualizarRelogio() {
+            var agora = new Date();
+            var horas = String(agora.getHours()).padStart(2, '0');
+            var minutos = String(agora.getMinutes()).padStart(2, '0');
+            var segundos = String(agora.getSeconds()).padStart(2, '0');
+            document.getElementById('relogioAtual').textContent = horas + ':' + minutos + ':' + segundos;
+        }
+        atualizarRelogio();
+        setInterval(atualizarRelogio, 1000);
+    </script>
+    <script>
+    // ============================================================
+    //  JOGO DO DINOSSAURO (T-REX RUNNER)
+    // ============================================================
+
+    var canvas = document.getElementById('gameCanvas');
+    var ctx = canvas.getContext('2d');
+    var btnPular = document.getElementById('btnPular');
+    var btnReiniciar = document.getElementById('btnReiniciar');
+    var btnReiniciarSnake = document.getElementById('btnReiniciarSnake');
+    var btnDino = document.getElementById('btnDino');
+    var btnSnake = document.getElementById('btnSnake');
+    var controlesDino = document.getElementById('controlesDino');
+    var controlesSnake = document.getElementById('controlesSnake');
+    var hintJogo = document.getElementById('hintJogo');
+
+    var W = 700;
+    var H = 350;
+    canvas.width = W;
+    canvas.height = H;
+
+    var jogoAtual = 'dino';
+    var jogoRodando = false;
+
+    // ============================================================
+    //  JOGO DO DINOSSAURO
+    // ============================================================
+
+    var dinoJogo = {
+        rodando: false,
+        gameOver: false,
+        pontuacao: 0,
+        velocidade: 5,
+        gravidade: 0.6,
+        chaoY: 310,
+        frames: 0,
+        recorde: parseInt(localStorage.getItem('dinoRecorde')) || 0
+    };
+
+    var dino = {
+        x: 50,
+        y: 0,
+        largura: 35,
+        altura: 45,
+        vy: 0,
+        pulando: false,
+        reset: function() {
+            this.y = dinoJogo.chaoY - this.altura;
+            this.vy = 0;
+            this.pulando = false;
+        }
+    };
+    dino.reset();
+
+    var cactusDino = [];
+    var intervaloMin = 70;
+    var intervaloMax = 140;
+    var framesProxCactusDino = 100;
+
+    var nuvensDino = [];
+    for (var n = 0; n < 4; n++) {
+        nuvensDino.push({
+            x: Math.random() * W,
+            y: 20 + Math.random() * 80,
+            w: 50 + Math.random() * 40,
+            velocidade: 0.3 + Math.random() * 0.4
+        });
+    }
+
+    function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function reiniciarDino() {
+        dinoJogo.rodando = true;
+        dinoJogo.gameOver = false;
+        dinoJogo.pontuacao = 0;
+        dinoJogo.velocidade = 5;
+        dinoJogo.frames = 0;
+        cactusDino = [];
+        framesProxCactusDino = randomInt(intervaloMin, intervaloMax);
+        dino.reset();
+        jogoRodando = true;
+    }
+
+    function pularDino() {
+        if (!dinoJogo.rodando || dinoJogo.gameOver) return;
+        if (!dino.pulando) {
+            dino.vy = -11;
+            dino.pulando = true;
+        }
+    }
+
+    function atualizarDino() {
+        if (!dinoJogo.rodando || dinoJogo.gameOver) return;
+
+        dinoJogo.frames++;
+
+        if (dinoJogo.frames % 6 === 0) {
+            dinoJogo.pontuacao++;
+        }
+
+        if (dinoJogo.frames % 300 === 0 && dinoJogo.velocidade < 14) {
+            dinoJogo.velocidade += 0.5;
+        }
+
+        dino.vy += dinoJogo.gravidade;
+        dino.y += dino.vy;
+        if (dino.y >= dinoJogo.chaoY - dino.altura) {
+            dino.y = dinoJogo.chaoY - dino.altura;
+            dino.vy = 0;
+            dino.pulando = false;
+        }
+
+        if (dinoJogo.frames >= framesProxCactusDino) {
+            var alturas = [25, 35, 45];
+            var alturaCacto = alturas[randomInt(0, alturas.length - 1)];
+            cactusDino.push({
+                x: W + 20,
+                y: dinoJogo.chaoY - alturaCacto,
+                largura: 18 + randomInt(0, 12),
+                altura: alturaCacto,
+                tipo: randomInt(0, 2)
+            });
+            framesProxCactusDino = dinoJogo.frames + randomInt(intervaloMin, intervaloMax);
+        }
+
+        for (var i = cactusDino.length - 1; i >= 0; i--) {
+            var c = cactusDino[i];
+            c.x -= dinoJogo.velocidade;
+            if (c.x + c.largura < 0) {
+                cactusDino.splice(i, 1);
+            }
+        }
+
+        for (var j = 0; j < cactusDino.length; j++) {
+            var c = cactusDino[j];
+            if (dino.x + 6 < c.x + c.largura - 6 &&
+                dino.x + dino.largura - 6 > c.x + 6 &&
+                dino.y + 6 < c.y + c.altura - 6 &&
+                dino.y + dino.altura - 6 > c.y + 6) {
+                dinoJogo.gameOver = true;
+                dinoJogo.rodando = false;
+                if (dinoJogo.pontuacao > dinoJogo.recorde) {
+                    dinoJogo.recorde = dinoJogo.pontuacao;
+                    localStorage.setItem('dinoRecorde', dinoJogo.recorde);
+                }
+                return;
+            }
+        }
+
+        for (var k = 0; k < nuvensDino.length; k++) {
+            var nuv = nuvensDino[k];
+            nuv.x -= nuv.velocidade;
+            if (nuv.x + nuv.w < 0) {
+                nuv.x = W + randomInt(20, 120);
+                nuv.y = 20 + Math.random() * 80;
+                nuv.w = 50 + Math.random() * 40;
+            }
+        }
+    }
+    function desenharDino() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Nuvens
+    ctx.fillStyle = 'rgba(255,255,255,0.06)';
+    for (var k = 0; k < nuvensDino.length; k++) {
+        var n = nuvensDino[k];
+        ctx.beginPath();
+        ctx.ellipse(n.x, n.y, n.w / 2, 18, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(n.x - n.w / 3, n.y + 10, n.w / 3, 14, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(n.x + n.w / 3, n.y + 10, n.w / 3, 14, 0, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    // Chão
+    ctx.fillStyle = '#333';
+    ctx.fillRect(0, dinoJogo.chaoY, W, 2);
+    ctx.strokeStyle = '#444';
+    ctx.lineWidth = 1.5;
+    for (var s = 0; s < W; s += 22) {
+        var offset = (dinoJogo.frames * 2.5) % 22;
+        var pos = (s + offset) % W;
+        if (pos < 18) {
+            ctx.beginPath();
+            ctx.moveTo(pos, dinoJogo.chaoY + 10);
+            ctx.lineTo(pos + 12, dinoJogo.chaoY + 10);
+            ctx.stroke();
+        }
+    }
+
+    // Cactos
+    for (var i = 0; i < cactusDino.length; i++) {
+        var c = cactusDino[i];
+        ctx.fillStyle = '#22c55e';
+        ctx.fillRect(c.x, c.y, 7, c.altura);
+        if (c.tipo >= 1) {
+            ctx.fillRect(c.x - 6, c.y + 5, 5, 12);
+            ctx.fillRect(c.x + 8, c.y + 3, 5, 14);
+        }
+        if (c.tipo >= 2) {
+            ctx.fillRect(c.x - 10, c.y + 12, 5, 10);
+            ctx.fillRect(c.x + 12, c.y + 10, 5, 12);
+        }
+        ctx.fillRect(c.x - 3, c.y + c.altura - 2, 12, 5);
+    }
+
+    // Dinossauro
+    var d = dino;
+    ctx.fillStyle = '#5865f2';
+    ctx.fillRect(d.x, d.y, d.largura, d.altura);
+    ctx.fillRect(d.x + d.largura - 10, d.y - 10, 16, 16);
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(d.x + d.largura - 5, d.y - 7, 5, 5);
+    ctx.fillStyle = '#1a1b1e';
+    ctx.fillRect(d.x + d.largura - 3, d.y - 5, 2, 2);
+    ctx.fillStyle = '#22c55e';
+    ctx.fillRect(d.x + d.largura - 8, d.y + 2, 10, 2);
+    ctx.fillStyle = '#4752c4';
+    var passo = Math.sin(dinoJogo.frames * 0.15) * 3;
+    if (!d.pulando) {
+        ctx.fillRect(d.x + 5, d.y + d.altura - 2, 8, 6 + passo);
+        ctx.fillRect(d.x + 22, d.y + d.altura - 2, 8, 6 - passo);
+    } else {
+        ctx.fillRect(d.x + 5, d.y + d.altura - 2, 8, 6);
+        ctx.fillRect(d.x + 22, d.y + d.altura - 2, 8, 6);
+    }
+
+    // Pontuação
+    ctx.fillStyle = '#888';
+    ctx.font = '18px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText('🏆 ' + dinoJogo.pontuacao, 12, 32);
+    ctx.fillStyle = '#555';
+    ctx.font = '13px Arial';
+    ctx.fillText('👑 Recorde: ' + dinoJogo.recorde, 12, 54);
+
+    // Game Over
+    if (dinoJogo.gameOver) {
+        ctx.fillStyle = 'rgba(0,0,0,0.75)';
+        ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = '#dc2626';
+        ctx.font = 'bold 38px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('💀 GAME OVER', W / 2, H / 2 - 10);
+        ctx.fillStyle = '#888';
+        ctx.font = '18px Arial';
+        ctx.fillText('Clique em "Reiniciar" ou pressione Espaço', W / 2, H / 2 + 40);
+        ctx.fillStyle = '#22c55e';
+        ctx.font = '22px Arial';
+        ctx.fillText('Pontuação: ' + dinoJogo.pontuacao, W / 2, H / 2 + 80);
+    }
+
+    // Iniciar
+    if (!dinoJogo.rodando && !dinoJogo.gameOver) {
+        ctx.fillStyle = 'rgba(0,0,0,0.4)';
+        ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = '#5865f2';
+        ctx.font = 'bold 28px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('🎮 Pressione Espaço para iniciar', W / 2, H / 2);
+    }
+}
+// ============================================================
+//  JOGO DA COBRINHA (SNAKE)
+// ============================================================
+
+var snakeJogo = {
+    rodando: false,
+    gameOver: false,
+    pontuacao: 0,
+    recorde: parseInt(localStorage.getItem('snakeRecorde')) || 0,
+    velocidade: 150,
+    ultimoMovimento: 0
+};
+
+var snake = [];
+var comida = { x: 0, y: 0 };
+var direcao = 'right';
+var proximaDirecao = 'right';
+var tamanhoCelula = 20;
+var gridCols = Math.floor(W / tamanhoCelula);
+var gridRows = Math.floor(H / tamanhoCelula);
+
+function reiniciarSnake() {
+    snake = [];
+    var inicioX = Math.floor(gridCols / 2);
+    var inicioY = Math.floor(gridRows / 2);
+    for (var i = 0; i < 4; i++) {
+        snake.push({ x: inicioX - i, y: inicioY });
+    }
+    direcao = 'right';
+    proximaDirecao = 'right';
+    snakeJogo.rodando = true;
+    snakeJogo.gameOver = false;
+    snakeJogo.pontuacao = 0;
+    snakeJogo.ultimoMovimento = 0;
+    jogoRodando = true;
+    gerarComida();
+}
+
+function gerarComida() {
+    var posicaoValida = false;
+    var tentativas = 0;
+    while (!posicaoValida && tentativas < 100) {
+        comida.x = Math.floor(Math.random() * gridCols);
+        comida.y = Math.floor(Math.random() * gridRows);
+        posicaoValida = true;
+        for (var i = 0; i < snake.length; i++) {
+            if (snake[i].x === comida.x && snake[i].y === comida.y) {
+                posicaoValida = false;
+                break;
+            }
+        }
+        tentativas++;
+    }
+}
+
+function moverSnake() {
+    if (!snakeJogo.rodando || snakeJogo.gameOver) return;
+
+    direcao = proximaDirecao;
+
+    var cabeca = snake[0];
+    var novaCabeca = { x: cabeca.x, y: cabeca.y };
+
+    switch (direcao) {
+        case 'up': novaCabeca.y--; break;
+        case 'down': novaCabeca.y++; break;
+        case 'left': novaCabeca.x--; break;
+        case 'right': novaCabeca.x++; break;
+    }
+
+    // Verificar colisão com parede
+    if (novaCabeca.x < 0 || novaCabeca.x >= gridCols || novaCabeca.y < 0 || novaCabeca.y >= gridRows) {
+        snakeJogo.gameOver = true;
+        snakeJogo.rodando = false;
+        if (snakeJogo.pontuacao > snakeJogo.recorde) {
+            snakeJogo.recorde = snakeJogo.pontuacao;
+            localStorage.setItem('snakeRecorde', snakeJogo.recorde);
+        }
+        return;
+    }
+
+    // Verificar colisão com o próprio corpo
+    for (var i = 0; i < snake.length; i++) {
+        if (snake[i].x === novaCabeca.x && snake[i].y === novaCabeca.y) {
+            snakeJogo.gameOver = true;
+            snakeJogo.rodando = false;
+            if (snakeJogo.pontuacao > snakeJogo.recorde) {
+                snakeJogo.recorde = snakeJogo.pontuacao;
+                localStorage.setItem('snakeRecorde', snakeJogo.recorde);
+            }
+            return;
+        }
+    }
+
+    snake.unshift(novaCabeca);
+
+    if (novaCabeca.x === comida.x && novaCabeca.y === comida.y) {
+        snakeJogo.pontuacao++;
+        gerarComida();
+        // Aumentar velocidade gradualmente
+        if (snakeJogo.velocidade > 60) {
+            snakeJogo.velocidade -= 2;
+        }
+    } else {
+        snake.pop();
+    }
+}
+
+function desenharSnake() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Grade (opcional, fundo)
+    ctx.fillStyle = 'rgba(255,255,255,0.02)';
+    for (var gx = 0; gx < gridCols; gx++) {
+        for (var gy = 0; gy < gridRows; gy++) {
+            if ((gx + gy) % 2 === 0) {
+                ctx.fillRect(gx * tamanhoCelula, gy * tamanhoCelula, tamanhoCelula, tamanhoCelula);
+            }
+        }
+    }
+
+    // Comida
+    ctx.fillStyle = '#dc2626';
+    ctx.shadowColor = '#dc2626';
+    ctx.shadowBlur = 15;
+    ctx.beginPath();
+    ctx.arc(comida.x * tamanhoCelula + tamanhoCelula / 2, comida.y * tamanhoCelula + tamanhoCelula / 2, tamanhoCelula / 2 - 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Cobra
+    for (var i = 0; i < snake.length; i++) {
+        var segmento = snake[i];
+        var cor;
+        if (i === 0) {
+            cor = '#22c55e';
+        } else {
+            var tom = 60 + (i / snake.length) * 40;
+            cor = 'hsl(140, 70%, ' + tom + '%)';
+        }
+        ctx.fillStyle = cor;
+        var margem = i === 0 ? 1 : 2;
+        ctx.fillRect(segmento.x * tamanhoCelula + margem, segmento.y * tamanhoCelula + margem,
+            tamanhoCelula - margem * 2, tamanhoCelula - margem * 2);
+        // Olhos da cabeça
+        if (i === 0) {
+            ctx.fillStyle = '#fff';
+            var olhoX, olhoY;
+            switch (direcao) {
+                case 'up': olhoX = -3; olhoY = -4; break;
+                case 'down': olhoX = -3; olhoY = 4; break;
+                case 'left': olhoX = -4; olhoY = -3; break;
+                case 'right': olhoX = 4; olhoY = -3; break;
+            }
+            ctx.fillRect(segmento.x * tamanhoCelula + tamanhoCelula / 2 + olhoX - 2,
+                segmento.y * tamanhoCelula + tamanhoCelula / 2 + olhoY - 2, 3, 3);
+            ctx.fillRect(segmento.x * tamanhoCelula + tamanhoCelula / 2 + olhoX + 4,
+                segmento.y * tamanhoCelula + tamanhoCelula / 2 + olhoY - 2, 3, 3);
+        }
+    }
+
+    // Pontuação
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = '#888';
+    ctx.font = '18px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText('🏆 ' + snakeJogo.pontuacao, 12, 32);
+    ctx.fillStyle = '#555';
+    ctx.font = '13px Arial';
+    ctx.fillText('👑 Recorde: ' + snakeJogo.recorde, 12, 54);
+
+    // Game Over
+    if (snakeJogo.gameOver) {
+        ctx.fillStyle = 'rgba(0,0,0,0.75)';
+        ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = '#dc2626';
+        ctx.font = 'bold 38px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('💀 GAME OVER', W / 2, H / 2 - 10);
+        ctx.fillStyle = '#888';
+        ctx.font = '18px Arial';
+        ctx.fillText('Clique em "Reiniciar" para jogar novamente', W / 2, H / 2 + 40);
+        ctx.fillStyle = '#22c55e';
+        ctx.font = '22px Arial';
+        ctx.fillText('Pontuação: ' + snakeJogo.pontuacao, W / 2, H / 2 + 80);
+    }
+
+    // Iniciar
+    if (!snakeJogo.rodando && !snakeJogo.gameOver) {
+        ctx.fillStyle = 'rgba(0,0,0,0.4)';
+        ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = '#5865f2';
+        ctx.font = 'bold 28px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('🎮 Pressione Espaço para iniciar', W / 2, H / 2);
+    }
+}
+// ============================================================
+//  LOOP PRINCIPAL E CONTROLES
+// ============================================================
+
+var tempoSnake = 0;
+var jogoAtivo = 'dino';
+
+function loopJogo(timestamp) {
+    if (jogoAtivo === 'dino') {
+        atualizarDino();
+        desenharDino();
+    } else {
+        // Snake
+        if (snakeJogo.rodando && !snakeJogo.gameOver) {
+            if (!tempoSnake) tempoSnake = timestamp;
+            var delta = timestamp - tempoSnake;
+            if (delta >= snakeJogo.velocidade) {
+                moverSnake();
+                tempoSnake = timestamp;
+            }
+        }
+        desenharSnake();
+    }
+    requestAnimationFrame(loopJogo);
+}
+
+// ----- MUDAR JOGO -----
+function mudarJogo(jogo) {
+    jogoAtivo = jogo;
+    if (jogo === 'dino') {
+        controlesDino.style.display = 'flex';
+        controlesSnake.style.display = 'none';
+        hintJogo.innerHTML = 'Pressione <kbd>Espaço</kbd> ou <kbd>↑</kbd> para pular &nbsp;·&nbsp; Clique no jogo para pular também';
+        if (!dinoJogo.rodando && !dinoJogo.gameOver) {
+            desenharDino();
+        }
+        btnDino.classList.add('ativo');
+        btnSnake.classList.remove('ativo');
+    } else {
+        controlesDino.style.display = 'none';
+        controlesSnake.classList.add('mostrar');
+        controlesSnake.style.display = 'flex';
+        hintJogo.innerHTML = 'Use as <kbd>Setas</kbd> para mover &nbsp;·&nbsp; Botões abaixo também funcionam';
+        if (!snakeJogo.rodando && !snakeJogo.gameOver) {
+            desenharSnake();
+        }
+        btnSnake.classList.add('ativo');
+        btnDino.classList.remove('ativo');
+    }
+}
+
+// ----- EVENTOS DOS BOTÕES DE JOGO -----
+btnDino.addEventListener('click', function() {
+    mudarJogo('dino');
+});
+
+btnSnake.addEventListener('click', function() {
+    mudarJogo('snake');
+    if (!snakeJogo.rodando && !snakeJogo.gameOver) {
+        // Desenhar tela inicial da snake
+        desenharSnake();
+    }
+});
+
+// ----- EVENTOS DE TECLADO -----
+document.addEventListener('keydown', function(e) {
+    if (jogoAtivo === 'dino') {
+        if (e.key === ' ' || e.key === 'Space' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (dinoJogo.gameOver) {
+                reiniciarDino();
+                return;
+            }
+            if (!dinoJogo.rodando && !dinoJogo.gameOver) {
+                reiniciarDino();
+                return;
+            }
+            pularDino();
+        }
+    } else {
+        // Snake
+        if (e.key === ' ' || e.key === 'Space') {
+            e.preventDefault();
+            if (snakeJogo.gameOver) {
+                reiniciarSnake();
+                return;
+            }
+            if (!snakeJogo.rodando && !snakeJogo.gameOver) {
+                reiniciarSnake();
+                return;
+            }
+        }
+        var dirs = {
+            'ArrowUp': 'up',
+            'ArrowDown': 'down',
+            'ArrowLeft': 'left',
+            'ArrowRight': 'right'
+        };
+        if (dirs[e.key]) {
+            e.preventDefault();
+            var opostas = { 'up': 'down', 'down': 'up', 'left': 'right', 'right': 'left' };
+            if (direcao !== opostas[dirs[e.key]]) {
+                proximaDirecao = dirs[e.key];
+            }
+        }
+    }
+});
+
+// ----- EVENTOS DO CANVAS (CLICK E TOQUE) -----
+canvas.addEventListener('click', function(e) {
+    e.preventDefault();
+    if (jogoAtivo === 'dino') {
+        if (dinoJogo.gameOver) {
+            reiniciarDino();
+            return;
+        }
+        if (!dinoJogo.rodando && !dinoJogo.gameOver) {
+            reiniciarDino();
+            return;
+        }
+        pularDino();
+    }
+});
+
+canvas.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    if (jogoAtivo === 'dino') {
+        if (dinoJogo.gameOver) {
+            reiniciarDino();
+            return;
+        }
+        if (!dinoJogo.rodando && !dinoJogo.gameOver) {
+            reiniciarDino();
+            return;
+        }
+        pularDino();
+    }
+}, { passive: false });
+
+// ----- BOTÕES DO DINOSSAURO -----
+btnPular.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (jogoAtivo !== 'dino') return;
+    if (dinoJogo.gameOver) {
+        reiniciarDino();
+        return;
+    }
+    if (!dinoJogo.rodando && !dinoJogo.gameOver) {
+        reiniciarDino();
+        return;
+    }
+    pularDino();
+});
+
+btnReiniciar.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (jogoAtivo !== 'dino') return;
+    reiniciarDino();
+});
+// ----- BOTÕES DA COBRINHA -----
+var botoesDirecao = document.querySelectorAll('.btn-direcao');
+botoesDirecao.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        if (jogoAtivo !== 'snake') return;
+        if (snakeJogo.gameOver) {
+            reiniciarSnake();
+            return;
+        }
+        if (!snakeJogo.rodando && !snakeJogo.gameOver) {
+            reiniciarSnake();
+            return;
+        }
+        var dir = this.getAttribute('data-dir');
+        var opostas = { 'up': 'down', 'down': 'up', 'left': 'right', 'right': 'left' };
+        if (direcao !== opostas[dir]) {
+            proximaDirecao = dir;
+        }
+    });
+});
+
+btnReiniciarSnake.addEventListener('click', function() {
+    if (jogoAtivo !== 'snake') return;
+    reiniciarSnake();
+});
+
+// ----- INICIALIZAR AMBOS OS JOGOS -----
+function iniciarJogos() {
+    // Inicializar Dino
+    dino.reset();
+    // Inicializar Snake
+    snake = [];
+    var inicioX = Math.floor(gridCols / 2);
+    var inicioY = Math.floor(gridRows / 2);
+    for (var i = 0; i < 4; i++) {
+        snake.push({ x: inicioX - i, y: inicioY });
+    }
+    gerarComida();
+    mudarJogo('dino');
+    loopJogo(0);
+}
+
+// ============================================================
+//  OTIMIZAÇÕES PARA DISPOSITIVOS MÓVEIS
+// ============================================================
+
+function ajustarCanvas() {
+    var wrapper = canvas.parentElement;
+    if (wrapper) {
+        var wrapperWidth = wrapper.clientWidth - 20;
+        var ratio = H / W;
+        var newWidth = Math.min(wrapperWidth, 700);
+        canvas.style.width = newWidth + 'px';
+        canvas.style.height = (newWidth * ratio) + 'px';
+    }
+}
+
+window.addEventListener('resize', ajustarCanvas);
+window.addEventListener('load', function() {
+    setTimeout(ajustarCanvas, 100);
+    setTimeout(iniciarJogos, 200);
+});
+ajustarCanvas();
+
+console.log('🦕 Jogo do Dinossauro e 🐍 Cobrinha carregados!');
+console.log('👑 Dinossauro - Recorde: ' + dinoJogo.recorde);
+console.log('👑 Cobrinha - Recorde: ' + snakeJogo.recorde);
+console.log('⚠️ Atenciosamente, e.sousa61');
+        // ============================================================
+        //  PREVENIR SCROLL EM DISPOSITIVOS MÓVEIS
+        // ============================================================
+
+        canvas.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        canvas.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === ' ' || e.key === 'Space' || e.key === 'ArrowUp' ||
+                e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                e.preventDefault();
+            }
+        });
+
+        // ============================================================
+        //  RECARREGAR RECORDES (OPCIONAL)
+        // ============================================================
+
+        function limparRecordes() {
+            // localStorage.removeItem('dinoRecorde');
+            // localStorage.removeItem('snakeRecorde');
+            // console.log('🔄 Recordes resetados!');
+        }
+
+        console.log('📱 Modo mobile otimizado!');
+        console.log('🎮 Jogos carregados com sucesso!');
+        console.log('💡 Dino: ESPAÇO para pular | Snake: Setas para mover');
+
+        // ============================================================
+        //  FIM - TELA DE MANUTENÇÃO COMPLETA
+        //  Desenvolvido por e.sousa61
+        // ============================================================
+    </script>
+
+</body>
+</html>
